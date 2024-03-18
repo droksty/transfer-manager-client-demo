@@ -1,7 +1,7 @@
 export interface Transfer {
   id: number;
-  date: Date;
-  time: Date;
+  pickupDate: Date;
+  pickupTime: Date;
   passengerName: string;
   pax: number;
   type: string;
@@ -10,9 +10,16 @@ export interface Transfer {
   priceTotal: number;
   priceNet: number;
   client: Client;
+  provider: Provider;
+  providerCost: number;
 }
 
 export interface Client {
   id: number;
   title: string;
+}
+
+export interface Provider {
+  id: number;
+  name: string;
 }
