@@ -7,12 +7,14 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TransferListComponent } from './transfers/transfer-list/transfer-list.component';
 import { AppRoutingModule } from './app.routing.module';
 import { TransferService } from './transfers/transfer.service';
+import { InsertFormComponent } from './transfers/insert-form/insert-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     TransferListComponent,
+    InsertFormComponent,
   ],
   imports: [
     BrowserModule,
