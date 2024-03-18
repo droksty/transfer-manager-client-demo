@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm bg-warning-subtle">
+<nav class="navbar navbar-expand-xl bg-warning-subtle">
  <div class="container-fluid">
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,8 +9,15 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="transfers/list">Transfers</a>
+        <li class="nav-item dropdown">
+          <!-- <a class="nav-link" routerLink="transfers/list">Transfers</a> -->
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Transfers
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Εισαγωγή</a></li>
+            <li><a class="dropdown-item" href="#">Αναζήτηση</a></li>
+          </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
