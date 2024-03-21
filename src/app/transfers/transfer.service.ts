@@ -12,4 +12,8 @@ export class TransferService {
   getTransferList() {
     this.http.get<Transfer[]>(this.API_URL + this.testdate).subscribe(transferList => console.log(transferList));
   }
+
+  insertTransfer(transferDTO: Transfer) {
+    this.http.post<Transfer>(this.API_URL, transferDTO).subscribe(data => console.log(data));
+  }
 }

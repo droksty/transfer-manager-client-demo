@@ -1,1 +1,71 @@
-<p>insert-form works!</p>
+<div class="container">
+  <form (ngSubmit)="onSubmit(insertForm)" #insertForm="ngForm">
+    <div class="row">
+      <div class="form-group col-md-2">
+        <label for="pickupDate">Ημερομηνία</label>
+        <input type="date" id="pickupDate" class="form-control" ngModel name="pickupDate"  min="2024-01-01" max="2024-12-31">
+      </div>
+      <div class="form-group col-md-2">
+        <label for="pickupTime">Ώρα</label>
+        <input type="time" id="pickupTime" class="form-control" ngModel name="pickupTime" >
+      </div>
+      <div class="form-group col-md-2">
+        <label for="transferFrom">Αφετηρία</label>
+        <input type="text" id="transferFrom" class="form-control" ngModel name="transferFrom" >
+      </div>
+      <div class="form-group col-md-2">
+        <label for="transferTo">Προορισμός</label>
+        <input type="text" id="transferTo" class="form-control" ngModel name="transferTo" >
+      </div>
+      <div class="form-group col-md-1">
+        <label for="pax">Άτομα</label>
+        <input type="number" id="pax" class="form-control" ngModel name="pax" min="1" max="20" >
+      </div>
+      <div class="form-group col-md-1">
+        <label for="type">Κατηγορία</label>
+        <select id="type" class="form-control" ngModel name="type">
+          <option *ngFor="let type of types;">{{ type }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-2">
+        <label for="passengerName">Όνομα</label>
+        <input type="text" id="passengerName" class="form-control" ngModel name="passengerName">
+      </div>
+      <div class="form-group col-md-1">
+        <label for="priceTotal">Σύνολο</label>
+        <input type="number" min="0" max="200" id="priceTotal" class="form-control" ngModel name="priceTotal">
+      </div>
+      <div class="form-group col-md-1">
+        <label for="priceNet">Net</label>
+        <input type="number" min="0" max="200" id="priceNet" class="form-control" ngModel name="priceNet">
+      </div>
+      <div class="form-group col-md-2" ngModelGroup="client">
+        <label for="client">Πελάτης</label>
+        <select id="type" class="form-control" ngModel name="title">
+          <option *ngFor="let client of clients">{{ client.title }}</option>
+        </select>
+      </div>
+
+
+      <div class="form-group col-md-2">
+        <label for="provider">Προμηθευτής</label>
+        <select id="type" class="form-control" ngModel name="provider">
+          <option *ngFor="let provider of providers">{{ provider }}</option>
+        </select>
+      </div>
+
+
+
+
+
+      <div class="form-group col-md-1">
+        <label for="providerCost">Κόστος</label>
+        <input type="number" min="0" max="100" id="providerCost" class="form-control" ngModel name="providerCost">
+      </div>
+    </div>
+    <hr>
+    <button class="btn btn-primary" type="submit" [disabled]="!insertForm.valid">Εισαγωγή</button>
+  </form>
+</div>
