@@ -9,6 +9,7 @@ import { TransferListComponent } from './transfers/transfer-list/transfer-list.c
 import { AppRoutingModule } from './app.routing.module';
 import { TransferService } from './transfers/transfer.service';
 import { InsertFormComponent } from './transfers/insert-form/insert-form.component';
+import { NotImplementedComponent } from './not-implemented/not-implemented.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { InsertFormComponent } from './transfers/insert-form/insert-form.compone
     NavbarComponent,
     TransferListComponent,
     InsertFormComponent,
+    NotImplementedComponent,
   ],
   imports: [
     BrowserModule,
