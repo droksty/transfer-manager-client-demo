@@ -47,19 +47,12 @@
           <option *ngFor="let client of clients">{{ client.title }}</option>
         </select>
       </div>
-
-
       <div class="form-group col-md-2">
         <label for="provider">Προμηθευτής</label>
         <select id="type" class="form-control" ngModel name="provider">
           <option *ngFor="let provider of providers">{{ provider }}</option>
         </select>
       </div>
-
-
-
-
-
       <div class="form-group col-md-1">
         <label for="providerCost">Κόστος</label>
         <input type="number" min="0" max="100" id="providerCost" class="form-control" ngModel name="providerCost">
