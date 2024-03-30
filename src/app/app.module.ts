@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { TransferService } from './transfers/transfer.service';
 import { InsertFormComponent } from './transfers/insert-form/insert-form.component';
 import { NotImplementedComponent } from './not-implemented/not-implemented.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NotImplementedComponent } from './not-implemented/not-implemented.compo
     TransferListComponent,
     InsertFormComponent,
     NotImplementedComponent,
+    SearchBarComponent,
   ],
   imports: [
     BrowserModule,
