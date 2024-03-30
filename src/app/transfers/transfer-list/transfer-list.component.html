@@ -1,1 +1,22 @@
-<p>transfer-list works!</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Time</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Type</th>
+      <th>Client</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let transfer of transfers">
+      <td>{{ transfer.pickupDate }}</td>
+      <td>{{ transfer.pickupTime }}</td>
+      <td>{{ transfer.transferFrom }}</td>
+      <td>{{ transfer.transferTo }}</td>
+      <td>{{ transfer.type }}</td>
+      <td>{{ transfer.client }}</td>
+    </tr>
+  </tbody>
+</table>
