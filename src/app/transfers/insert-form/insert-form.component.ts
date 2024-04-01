@@ -33,4 +33,8 @@ export class InsertFormComponent {
     userInput.client = client;
     return userInput;
   }
+
+  clearForm(insertForm: NgForm) {
+    insertForm.reset();
+  }
 }
