@@ -11,19 +11,19 @@
         <div class="row mb-4">
           <div class="form-group col-lg-2">
             <label for="pickupDate">Ημερομηνία</label>
-            <input type="date" id="pickupDate" class="form-control" ngModel name="pickupDate"  min="2024-01-01" max="2024-12-31">
+            <input type="date" id="pickupDate" class="form-control" ngModel name="pickupDate" required min="2024-01-01" max="2024-12-31">
           </div>
           <div class="form-group col-lg-2">
             <label for="pickupTime">Ώρα</label>
-            <input type="time" id="pickupTime" class="form-control" ngModel name="pickupTime" >
+            <input type="time" id="pickupTime" class="form-control" ngModel name="pickupTime" required>
           </div>
           <div class="form-group col-lg-2">
             <label for="transferFrom">Αφετηρία</label>
-            <input type="text" id="transferFrom" class="form-control" ngModel name="transferFrom" >
+            <input type="text" id="transferFrom" class="form-control" ngModel name="transferFrom" required>
           </div>
           <div class="form-group col-lg-2">
             <label for="transferTo">Προορισμός</label>
-            <input type="text" id="transferTo" class="form-control" ngModel name="transferTo" >
+            <input type="text" id="transferTo" class="form-control" ngModel name="transferTo" required>
           </div>
           <div class="form-group col-lg-2">
             <label for="pax">Άτομα</label>

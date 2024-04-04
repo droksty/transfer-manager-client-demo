@@ -30,7 +30,10 @@ export class InsertFormComponent {
 
   private transformToDTO(userInput: Transfer): Transfer {
     let client = this.clients.find((client) => client.title === userInput.client?.title);
+    console.log(client)
     userInput.client = client;
+    if (userInput.type === "") userInput.type = null;
+    if (!userInput.provider) userInput.provider = undefined;
     return userInput;
   }
 

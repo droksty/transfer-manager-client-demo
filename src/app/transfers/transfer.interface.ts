@@ -4,13 +4,13 @@ export interface Transfer {
   pickupTime: Date;
   passengerName: string;
   pax: number;
-  type: string;
+  type?: string | null;
   transferFrom: string;
   transferTo: string;
   priceTotal: number;
   priceNet: number;
   client?: Client;
-  provider: Provider | null;
+  provider?: Provider;
   providerCost: number;
 }
 
@@ -20,6 +20,6 @@ export interface Client {
 }
 
 export interface Provider {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
 }
