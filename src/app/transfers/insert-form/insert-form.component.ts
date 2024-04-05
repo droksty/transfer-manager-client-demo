@@ -1,43 +1,31 @@
-import { Component, Provider } from '@angular/core';
+import { Component, OnInit, Provider } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Client, Transfer } from '../transfer.interface';
+import { Client, TransferDTO } from '../transfer.interface';
 import { TransferService } from '../transfer.service';
+import { ClientService } from 'src/app/clients/client.service';
 
 @Component({
   selector: 'app-insert-form',
   templateUrl: './insert-form.component.html',
   styleUrls: ['./insert-form.component.css']
 })
-export class InsertFormComponent {
+export class InsertFormComponent implements OnInit {
   types = ['SHARED', 'PRIVATE', 'VIP'];
-  clients: Client[] = [
-    { 'id': 6, 'title': 'Hotel A' },
-    { 'id': 7, 'title': 'Hotel B' },
-    { 'id': 8, 'title': 'Agent A' },
-    { 'id': 9, 'title': 'Agent B' },
-  ];
-  providers: Provider[] = [];
+  clientList: Client[] = [];
+  providerList: Provider[] = [];
+  
+  constructor(private service: TransferService, private clientService: ClientService) { }
+  
+  ngOnInit() {
+    this.clientService.data$.subscribe(data => this.clientList = data);
+    // this.providerService.data$.subscribe(data => this.providerList = data);
+  }
 
-  constructor(private service: TransferService) {}
-
-
-  onSubmit(insertForm: NgForm) {
-    let transferDTO: Transfer = this.transformToDTO(insertForm.value);
+  submit(insertForm: NgForm) {
+    let transferDTO = new TransferDTO(insertForm.value);
     console.log(transferDTO);
     this.service.insertTransfer(transferDTO);
     insertForm.resetForm();
   }
 
-  private transformToDTO(userInput: Transfer): Transfer {
-    let client = this.clients.find((client) => client.title === userInput.client?.title);
-    console.log(client)
-    userInput.client = client;
-    if (userInput.type === "") userInput.type = null;
-    if (!userInput.provider) userInput.provider = undefined;
-    return userInput;
-  }
-
-  clearForm(insertForm: NgForm) {
-    insertForm.reset();
-  }
 }

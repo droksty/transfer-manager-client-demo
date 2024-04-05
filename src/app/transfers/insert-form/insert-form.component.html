@@ -7,23 +7,23 @@
   </div>
   <div class="row">
     <div class="col">
-      <form (ngSubmit)="onSubmit(insertForm)" #insertForm="ngForm">
+      <form (ngSubmit)="submit(insertForm)" #insertForm="ngForm">
         <div class="row mb-4">
           <div class="form-group col-lg-2">
             <label for="pickupDate">Ημερομηνία</label>
-            <input type="date" id="pickupDate" class="form-control" ngModel name="pickupDate" required min="2024-01-01" max="2024-12-31">
+            <input type="date" id="pickupDate" class="form-control" ngModel name="pickupDate" min="2024-01-01" max="2024-12-31">
           </div>
           <div class="form-group col-lg-2">
             <label for="pickupTime">Ώρα</label>
-            <input type="time" id="pickupTime" class="form-control" ngModel name="pickupTime" required>
+            <input type="time" id="pickupTime" class="form-control" ngModel name="pickupTime">
           </div>
           <div class="form-group col-lg-2">
             <label for="transferFrom">Αφετηρία</label>
-            <input type="text" id="transferFrom" class="form-control" ngModel name="transferFrom" required>
+            <input type="text" id="transferFrom" class="form-control" ngModel name="transferFrom">
           </div>
           <div class="form-group col-lg-2">
             <label for="transferTo">Προορισμός</label>
-            <input type="text" id="transferTo" class="form-control" ngModel name="transferTo" required>
+            <input type="text" id="transferTo" class="form-control" ngModel name="transferTo">
           </div>
           <div class="form-group col-lg-2">
             <label for="pax">Άτομα</label>
@@ -32,6 +32,7 @@
           <div class="form-group col-lg-2">
             <label for="type">Κατηγορία</label>
             <select id="type" class="form-control" ngModel name="type">
+              <option></option>
               <option *ngFor="let type of types;">{{ type }}</option>
             </select>
           </div>
@@ -47,16 +48,18 @@
             <label for="priceNet">Net</label>
             <input type="number" min="0" max="200" id="priceNet" class="form-control" ngModel name="priceNet">
           </div>
-          <div class="form-group col-lg-2" ngModelGroup="client">
+          <div class="form-group col-lg-2">
             <label for="client">Πελάτης</label>
-            <select id="type" class="form-control" ngModel name="title">
-              <option *ngFor="let client of clients">{{ client.title }}</option>
+            <select id="type" class="form-control" ngModel name="client">
+              <option></option>
+              <option *ngFor="let client of clientList" [ngValue]="client">{{ client.title }}</option>
             </select>
           </div>
           <div class="form-group col-lg-2">
             <label for="provider">Προμηθευτής</label>
             <select id="type" class="form-control" ngModel name="provider">
-              <option *ngFor="let provider of providers">{{ provider }}</option>
+              <option></option>
+              <option *ngFor="let provider of providerList" [ngValue]="provider">{{ provider }}</option>
             </select>
           </div>
           <div class="form-group col-lg-2">
@@ -67,7 +70,7 @@
         <div class="row">
           <div class="form-group d-flex justify-content-end gap-2">
             <button class="btn btn-success btn-block" type="submit" [disabled]="!insertForm.valid">Εισαγωγή</button>
-            <button class="btn btn-danger btn-block" type="button" (click)="clearForm(insertForm)">Εκκαθάριση</button>
+            <button class="btn btn-danger btn-block" type="button" (click)="insertForm.resetForm()">Εκκαθάριση</button>
           </div>
         </div>
         <!-- Alternative buttons layout -->
