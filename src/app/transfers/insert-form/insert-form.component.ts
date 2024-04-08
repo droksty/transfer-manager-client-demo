@@ -26,7 +26,7 @@ export class InsertFormComponent implements OnInit {
     let transferDTO = new TransferDTO(insertForm.value);
     console.log(transferDTO);
     this.service.insertTransfer(transferDTO);
-    insertForm.resetForm();
+    insertForm.resetForm({ type: '', client: '', provider: '' });
   }
 
 }
