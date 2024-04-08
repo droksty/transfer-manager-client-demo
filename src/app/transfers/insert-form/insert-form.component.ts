@@ -1,8 +1,9 @@
-import { Component, OnInit, Provider } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Client, TransferDTO } from '../transfer.interface';
+import { Client, Provider, TransferDTO } from '../transfer.interface';
 import { TransferService } from '../transfer.service';
 import { ClientService } from 'src/app/clients/client.service';
+import { ProviderService } from 'src/app/providers/provider.service';
 
 @Component({
   selector: 'app-insert-form',
@@ -14,11 +15,11 @@ export class InsertFormComponent implements OnInit {
   clientList: Client[] = [];
   providerList: Provider[] = [];
   
-  constructor(private service: TransferService, private clientService: ClientService) { }
+  constructor(private service: TransferService, private clientService: ClientService, private providerService: ProviderService) { }
   
   ngOnInit() {
     this.clientService.data$.subscribe(data => this.clientList = data);
-    // this.providerService.data$.subscribe(data => this.providerList = data);
+    this.providerService.data$.subscribe(data => this.providerList = data);
   }
 
   submit(insertForm: NgForm) {

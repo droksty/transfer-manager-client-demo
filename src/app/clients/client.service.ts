@@ -1,7 +1,8 @@
-import { Injectable, OnInit } from "@angular/core";
-import { Client } from "../transfers/transfer.interface";
+import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject } from "rxjs";
+
+import { Client } from "../transfers/transfer.interface";
 
 @Injectable({
   providedIn: 'root'
