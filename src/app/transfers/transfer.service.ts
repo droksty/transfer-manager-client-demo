@@ -12,7 +12,7 @@ export class TransferService {
 
   getTransferList() {
     const date = this.route.snapshot.queryParams;
-    return this.http.get<Transfer[]>(this.API_URL, { params: date });
+    return this.http.get<TransferDTO[]>(this.API_URL, { params: date });
   }
 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
-import { Transfer } from '../transfer.interface';
+import { Transfer, TransferDTO } from '../transfer.interface';
 
 @Component({
   selector: 'app-transfer-list',
@@ -9,7 +9,7 @@ import { Transfer } from '../transfer.interface';
   styleUrls: ['./transfer-list.component.css']
 })
 export class TransferListComponent implements OnInit {
-  transfers: Transfer[] = [];
+  transfers: TransferDTO[] = [];
 
   constructor(private transferService: TransferService) { }
 
