@@ -7,10 +7,13 @@ import { NotImplementedComponent } from "./not-implemented/not-implemented.compo
 import { SearchBarComponent } from "./search-bar/search-bar.component";
 
 const routes: Routes = [
-  // { path: 'transfers/list/:dateStart', component: TransferListComponent },
-  { path: 'transfers/list', component: TransferListComponent },
-  { path: 'transfers/insert', component: InsertFormComponent },
-  { path: 'transfers/search', component: SearchBarComponent },
+  { path: 'transfers', children: [
+    { path: 'insert', component: InsertFormComponent },
+    { path: 'search', component: SearchBarComponent },
+    { path: 'search-between', component: SearchBarComponent },
+    { path: 'by-date', component: TransferListComponent },
+    { path: 'by-dates-between', component: TransferListComponent },
+  ]},
   { path: '**', component: NotImplementedComponent }
 ];
 
