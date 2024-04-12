@@ -41,6 +41,14 @@ export interface FormValue {
   providerCost: number;
 }
 
+export interface SearchFormData {
+  date: '';
+  pickupDateFrom: '';
+  pickupDateTo: '';
+  clientTitle: '';
+  providerName: '';
+}
+
 export class TransferDTO {
   id?: number;
   pickupDate: Date;

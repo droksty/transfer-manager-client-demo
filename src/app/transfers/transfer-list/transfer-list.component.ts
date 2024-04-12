@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
-import { Transfer, TransferDTO } from '../transfer.interface';
+import { TransferDTO } from '../transfer.interface';
 
 @Component({
   selector: 'app-transfer-list',

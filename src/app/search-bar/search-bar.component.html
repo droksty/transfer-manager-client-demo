@@ -9,23 +9,27 @@
     <div class="col">
       <form (ngSubmit)="onSubmit(searchForm)" #searchForm="ngForm">
         <div class="row">
-          <div class="form-group col">
+          <div class="form-group col" *ngIf="!searchBetween">
+            <label for="date">Ημερομηνία</label>
+            <input type="date" id="date" class="form-control" ngModel name="date"  min="2024-01-01" max="2024-12-31">
+          </div>
+          <div class="form-group col" *ngIf="searchBetween">
             <label for="pickupDateFrom">Από</label>
             <input type="date" id="pickupDateFrom" class="form-control" ngModel name="pickupDateFrom"  min="2024-01-01" max="2024-12-31">
           </div>
-          <div class="form-group col">
+          <div class="form-group col" *ngIf="searchBetween">
             <label for="pickupDateTo">Έως</label>
             <input type="date" id="pickupDateTo" class="form-control" ngModel name="pickupDateTo"  min="2024-01-01" max="2024-12-31">
           </div>
-          <div class="form-group col" ngModelGroup="client">
+          <div class="form-group col">
             <label for="client">Πελάτης</label>
-            <select id="type" class="form-control" ngModel name="title">
+            <select id="client" class="form-control" ngModel name="clientTitle">
               <!-- <option *ngFor="let client of clients">{{ client.title }}</option> -->
             </select>
           </div>
           <div class="form-group col">
             <label for="provider">Προμηθευτής</label>
-            <select id="type" class="form-control" ngModel name="provider">
+            <select id="provider" class="form-control" ngModel name="providerName">
               <!-- <option *ngFor="let provider of providers">{{ provider }}</option> -->
             </select>
           </div>

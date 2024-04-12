@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Transfer, TransferDTO } from "./transfer.interface";
+import { TransferDTO } from "./transfer.interface";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
@@ -11,8 +11,8 @@ export class TransferService {
 
 
   getTransferList() {
-    const date = this.route.snapshot.queryParams;
-    return this.http.get<TransferDTO[]>(this.API_URL, { params: date });
+    const searchQuery = this.route.snapshot.queryParams;
+    return this.http.get<TransferDTO[]>(this.API_URL + (searchQuery.hasOwnProperty('date') ? '' : '/dates-between'), { params: searchQuery });
   }
 
 
