@@ -9,11 +9,10 @@ import { SearchBarComponent } from "./search-bar/search-bar.component";
 const routes: Routes = [
   { path: 'transfers', children: [
     { path: 'insert', component: InsertFormComponent },
-    { path: 'search', component: SearchBarComponent },
-    { path: 'search-between', component: SearchBarComponent },
-    { path: 'by-date', component: TransferListComponent },
-    { path: 'by-dates-between', component: TransferListComponent },
-  ]},
+    { path: 'search-by-date', component: SearchBarComponent },
+    { path: 'search-within-range', component: SearchBarComponent },
+    { path: 'list', component: TransferListComponent },
+  ] },
   { path: '**', component: NotImplementedComponent }
 ];
 

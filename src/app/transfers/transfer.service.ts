@@ -1,7 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { TransferDTO } from "./transfer.interface";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+
+import { TransferDTO } from "./transfer.interface";
 
 @Injectable()
 export class TransferService {
