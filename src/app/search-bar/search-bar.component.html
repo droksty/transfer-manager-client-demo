@@ -1,43 +1,63 @@
-<div class="container mt-3">
-  <div class="row justify-content-md-center">
-    <div class="col col-lg-2">
-      <h3>Αναζήτηση</h3>
+<div class="container-fluid bg-secondary-subtle py-2">
+  <form (ngSubmit)="onSubmit(searchForm)" #searchForm="ngForm">
+    <div class="row gx-2 justify-content-center text align-items-center">
+      <!-- Date -->
+      <div class="form-group col-md-3 col-lg-2" *ngIf="!searchBetween">
+        <input 
+          type="text" 
+          placeholder="Ημερομηνία"
+          onfocus="(this.type='date')" 
+          onblur="(this.type='text')" 
+          id="date" 
+          class="form-control" 
+          ngModel name="date"  
+          min="2024-01-01" 
+          max="2024-12-31">
+      </div>
+      <!-- From -->
+      <div class="form-group col-md-2 col-lg-2" *ngIf="searchBetween">
+        <input 
+          type="text" 
+          placeholder="Από"
+          onfocus="(this.type='date')" 
+          onblur="(this.type='text')" 
+          id="pickupDateFrom" 
+          class="form-control" 
+          ngModel name="pickupDateFrom"  
+          min="2024-01-01" 
+          max="2024-12-31">
+      </div>
+      <!-- To -->
+      <div class="form-group col-md-2 col-lg-2" *ngIf="searchBetween">
+        <input 
+          type="text" 
+          placeholder="Έως"
+          onfocus="(this.type='date')" 
+          onblur="(this.type='text')" 
+          id="pickupDateTo" 
+          class="form-control" 
+          ngModel name="pickupDateTo"  
+          min="2024-01-01" 
+          max="2024-12-31">
+      </div>
+      <!-- Client -->
+      <div class="form-group col-md-3 col-lg-2">
+        <select id="client" class="form-control" ngModel name="clientTitle">
+          <option value="" selected>Πελάτης</option>
+          <option *ngFor="let client of clientList" [ngValue]="client.title">{{ client.title }}</option>
+        </select>
+      </div>
+      <!-- Provider -->
+      <div class="form-group col-md-3 col-lg-2">
+        <select id="provider" class="form-control" ngModel name="providerName">
+          <option value="" selected>Προμηθευτής</option>
+          <option *ngFor="let provider of providerList" [ngValue]="provider.name">{{ provider.name }}</option>
+        </select>
+      </div>
+      <!--  -->
+      <div class="form-group col d-flex align-items-end">
+        <button class="btn btn-outline-secondary" type="submit" [disabled]="!searchForm.valid">Αναζήτηση</button>
+      </div>
     </div>
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col">
-      <form (ngSubmit)="onSubmit(searchForm)" #searchForm="ngForm">
-        <div class="row">
-          <div class="form-group col" *ngIf="!searchBetween">
-            <label for="date">Ημερομηνία</label>
-            <input type="date" id="date" class="form-control" ngModel name="date"  min="2024-01-01" max="2024-12-31">
-          </div>
-          <div class="form-group col" *ngIf="searchBetween">
-            <label for="pickupDateFrom">Από</label>
-            <input type="date" id="pickupDateFrom" class="form-control" ngModel name="pickupDateFrom"  min="2024-01-01" max="2024-12-31">
-          </div>
-          <div class="form-group col" *ngIf="searchBetween">
-            <label for="pickupDateTo">Έως</label>
-            <input type="date" id="pickupDateTo" class="form-control" ngModel name="pickupDateTo"  min="2024-01-01" max="2024-12-31">
-          </div>
-          <div class="form-group col">
-            <label for="client">Πελάτης</label>
-            <select id="client" class="form-control" ngModel name="clientTitle">
-              <!-- <option *ngFor="let client of clients">{{ client.title }}</option> -->
-            </select>
-          </div>
-          <div class="form-group col">
-            <label for="provider">Προμηθευτής</label>
-            <select id="provider" class="form-control" ngModel name="providerName">
-              <!-- <option *ngFor="let provider of providers">{{ provider }}</option> -->
-            </select>
-          </div>
-          <div class="form-group col d-flex align-items-end">
-            <button class="btn btn-primary " type="submit" [disabled]="!searchForm.valid">Αναζήτηση</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+  </form>
 </div>
