@@ -15,9 +15,25 @@ export class TransferListComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.fetchTransferList();
+  }
+
+
+  delete(id: number) {
+    this.transferService.deleteTransfer(id).subscribe({
+      next: () => console.log('Deleting..'),
+      error: (error: any) => console.log(error),
+      complete: () => {
+        console.log('Deleted!');
+        this.fetchTransferList();
+      }
+    });
+  }
+
+
+  private fetchTransferList() {
     this.transferService.getTransferList().subscribe(transferList => {
       this.transfers = transferList;
     });
   }
-
 }

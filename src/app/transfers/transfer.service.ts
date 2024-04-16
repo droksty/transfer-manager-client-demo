@@ -20,4 +20,9 @@ export class TransferService {
   insertTransfer(transferDTO: TransferDTO) {
     this.http.post<TransferDTO>(this.API_URL, transferDTO).subscribe(data => console.log(data));
   }
+
+  deleteTransfer(id: number) {
+    return this.http.delete(`${this.API_URL}/${id}`, { responseType: 'text' });
+    // return this.http.delete(`${this.API_URL}/${id}`);
+  }
 }
