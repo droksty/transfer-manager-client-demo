@@ -46,7 +46,6 @@ export class TransferListComponent implements OnInit {
       'provider': new FormControl(null),
       'providerCost': new FormControl(null),
     })
-    console.log(this.updateForm.value)
   }
 
 
@@ -67,12 +66,12 @@ export class TransferListComponent implements OnInit {
       'provider': transfer.provider,
       'providerCost': transfer.providerCost
       })
-      console.log(this.updateForm.value)
     }
   }
 
 
-  delete(id: number) {
+  onDelete(id: number) {
+    // confirm prompt?
     this.transferService.deleteTransfer(id).subscribe({
       next: () => console.log('Deleting..'),
       error: (error: any) => console.log(error),
@@ -84,7 +83,7 @@ export class TransferListComponent implements OnInit {
   }
 
 
-  update() {
+  onUpdate() {
     let updatedTransfer: TransferDTO = {
       'id': this.transferSelected.id,
       'pickupDate': this.updateForm.get('pickupDate')?.value,
@@ -100,21 +99,11 @@ export class TransferListComponent implements OnInit {
       'provider': this.updateForm.get('provider')?.value,
       'providerCost':this.updateForm.get('providerCost')?.value
     }
-    // console.log(updatedTransfer)
-    console.log(this.updateForm.value)
+
     this.clear();
-    this.transferService.updateTransfer(updatedTransfer).subscribe({
-      next: () => console.log('Updating..'),
-      error: (error: any) => console.log(error),
-      complete: () => {
-        console.log('Updated!');
-        this.fetchTransferList();
-      }
-    });
-    this.fetchTransferList()
+    this.doUpdate(updatedTransfer);
+    this.fetchTransferList();
   }
-
-
 
 
   protected clear() {
@@ -124,12 +113,20 @@ export class TransferListComponent implements OnInit {
   }
 
 
-
-
-
   private fetchTransferList() {
     this.transferService.getTransferList().subscribe(transferList => {
       this.transfers = transferList;
+    });
+  }
+
+  private doUpdate(updatedTransfer: TransferDTO) {
+    this.transferService.updateTransfer(updatedTransfer).subscribe({
+      next: () => console.log('Updating..'),
+      error: (error: any) => console.log(error),
+      complete: () => {
+        console.log('Updated!');
+        this.fetchTransferList();
+      }
     });
   }
 }

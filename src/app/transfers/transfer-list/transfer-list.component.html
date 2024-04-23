@@ -15,32 +15,26 @@
           <th scope="col">Net</th>
           <th scope="col">Provider</th>
           <th scope="col">Cost</th>
-          <!-- <th scope="col">Action</th> -->
         </tr>
       </thead>
       <tbody class="table-group-divider">
         <ng-container *ngFor="let transfer of transfers">
-
+          
           <!-- Normal row -->
           <tr *ngIf="transferSelected !== transfer" (click)="selectTransfer(transfer)">
             <td>{{ transfer.pickupDate | date: 'dd/MMM' }}</td>
             <td>{{ transfer.pickupTime.toString().substring(0,5) }}</td>
-            <td>{{ transfer.passengerName }}</td>
+            <td class="text-nowrap">{{ transfer.passengerName }}</td>
             <td>{{ transfer.pax }}</td>
-            <td>{{ transfer.transferFrom }}</td>
-            <td>{{ transfer.transferTo }}</td>
+            <td class="text-nowrap">{{ transfer.transferFrom }}</td>
+            <td class="text-nowrap">{{ transfer.transferTo }}</td>
             <td>{{ transfer.type }}</td>
-            <td>{{ transfer.client?.title }}</td>
+            <td class="text-nowrap">{{ transfer.client?.title }}</td>
             <td>{{ transfer.priceTotal }}</td>
             <td>{{ transfer.priceNet }}</td>
-            <td>{{ transfer.provider?.name }}</td>
+            <td class="text-nowrap">{{ transfer.provider?.name }}</td>
             <td>{{ transfer.providerCost }}</td>
-            <td>
-              <div class="btn-group" >
-                <!-- <button class="btn btn-outline-success">Update</button> -->
-                <button type="button" class="btn btn-outline-danger" (click)="delete(transfer.id!)">Delete</button>
-              </div>
-            </td>
+            <td><button type="button" class="btn btn-outline-danger" (click)="onDelete(transfer.id!)">Delete</button></td>
           </tr>
 
           <!-- Selected row -->
@@ -145,7 +139,7 @@
             </td>
             <td>
               <div class="btn-group" >
-                <button class="btn btn-outline-success" (click)="update()">Update</button>
+                <button class="btn btn-outline-success" (click)="onUpdate()">Update</button>
                 <button type="button" class="btn btn-outline-danger" (click)="clear()">Cancel</button>
               </div>
             </td>
