@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
-import { TransferDTO } from '../transfer.interface';
+import { Client, Provider, TransferDTO } from '../transfer.interface';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ClientService } from 'src/app/clients/client.service';
+import { ProviderService } from 'src/app/providers/provider.service';
 
 @Component({
   selector: 'app-transfer-list',
@@ -10,12 +13,62 @@ import { TransferDTO } from '../transfer.interface';
 })
 export class TransferListComponent implements OnInit {
   transfers: TransferDTO[] = [];
+  updateForm!: FormGroup;
+  transferSelected: TransferDTO = {} as TransferDTO;
+  
+  types = ['SHARED', 'PRIVATE', 'VIP'];
+  clientList: Client[] = [];
+  providerList: Provider[] = [];
 
-  constructor(private transferService: TransferService) { }
+
+  constructor(
+    private transferService: TransferService,
+    private clientService: ClientService,
+    private providerService: ProviderService
+  ) {}
 
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.fetchTransferList();
+    this.clientService.data$.subscribe(data => this.clientList = data);
+    this.providerService.data$.subscribe(data => this.providerList = data);
+    this.updateForm = new FormGroup({
+      'pickupDate': new FormControl(null, [Validators.required]),
+      'pickupTime': new FormControl(null, [Validators.required]),
+      'passengerName': new FormControl(null),
+      'pax': new FormControl(null),
+      'type': new FormControl(null),
+      'transferFrom': new FormControl(null, [Validators.required]),
+      'transferTo': new FormControl(null, [Validators.required]),
+      'priceTotal': new FormControl(null),
+      'priceNet': new FormControl(null),
+      'client': new FormControl(null),
+      'provider': new FormControl(null),
+      'providerCost': new FormControl(null),
+    })
+    console.log(this.updateForm.value)
+  }
+
+
+  selectTransfer(transfer: TransferDTO) {
+    if (Object.keys(this.transferSelected).length === 0) {
+      this.transferSelected = transfer;
+      this.updateForm.patchValue({
+      'pickupDate': transfer.pickupDate,
+      'pickupTime': transfer.pickupTime,
+      'passengerName': transfer.passengerName,
+      'pax': transfer.pax,
+      'type': transfer.type,
+      'transferFrom': transfer.transferFrom,
+      'transferTo': transfer.transferTo,
+      'priceTotal': transfer.priceTotal,
+      'priceNet': transfer.priceNet,
+      'client': transfer.client,
+      'provider': transfer.provider,
+      'providerCost': transfer.providerCost
+      })
+      console.log(this.updateForm.value)
+    }
   }
 
 
@@ -29,6 +82,49 @@ export class TransferListComponent implements OnInit {
       }
     });
   }
+
+
+  update() {
+    let updatedTransfer: TransferDTO = {
+      'id': this.transferSelected.id,
+      'pickupDate': this.updateForm.get('pickupDate')?.value,
+      'pickupTime': this.updateForm.get('pickupTime')?.value,
+      'passengerName': this.updateForm.get('passengerName')?.value,
+      'pax': this.updateForm.get('pax')?.value,
+      'type': this.updateForm.get('type')?.value,
+      'transferFrom': this.updateForm.get('transferFrom')?.value,
+      'transferTo': this.updateForm.get('transferTo')?.value,
+      'priceTotal': this.updateForm.get('priceTotal')?.value,
+      'priceNet': this.updateForm.get('priceNet')?.value,
+      'client': this.updateForm.get('client')?.value,
+      'provider': this.updateForm.get('provider')?.value,
+      'providerCost':this.updateForm.get('providerCost')?.value
+    }
+    // console.log(updatedTransfer)
+    console.log(this.updateForm.value)
+    this.clear();
+    this.transferService.updateTransfer(updatedTransfer).subscribe({
+      next: () => console.log('Updating..'),
+      error: (error: any) => console.log(error),
+      complete: () => {
+        console.log('Updated!');
+        this.fetchTransferList();
+      }
+    });
+    this.fetchTransferList()
+  }
+
+
+
+
+  protected clear() {
+    this.transferSelected = {} as TransferDTO;
+    this.updateForm.reset();
+    console.log(this.updateForm.value)
+  }
+
+
+
 
 
   private fetchTransferList() {

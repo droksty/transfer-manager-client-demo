@@ -25,4 +25,8 @@ export class TransferService {
     return this.http.delete(`${this.API_URL}/${id}`, { responseType: 'text' });
     // return this.http.delete(`${this.API_URL}/${id}`);
   }
+
+  updateTransfer(transferDTO: TransferDTO) {
+    return this.http.put<TransferDTO>(this.API_URL, transferDTO);
+  }
 }
