@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Client, Provider, SearchFormData } from '../transfers/transfer.interface';
 import { ClientService } from '../clients/client.service';
 import { ProviderService } from '../providers/provider.service';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-search-bar',
-  templateUrl: './search-bar.component.html',
-  styleUrls: ['./search-bar.component.css']
+    selector: 'app-search-bar',
+    templateUrl: './search-bar.component.html',
+    styleUrls: ['./search-bar.component.css'],
+    standalone: true,
+    imports: [FormsModule, NgIf, NgFor]
 })
 export class SearchBarComponent implements OnInit {
   searchBetween: boolean = false;

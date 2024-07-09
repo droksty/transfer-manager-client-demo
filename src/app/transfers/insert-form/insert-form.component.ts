@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { Client, Provider, TransferDTO } from '../transfer.interface';
 import { TransferService } from '../transfer.service';
 import { ClientService } from 'src/app/clients/client.service';
 import { ProviderService } from 'src/app/providers/provider.service';
+import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-insert-form',
-  templateUrl: './insert-form.component.html',
-  styleUrls: ['./insert-form.component.css']
+    selector: 'app-insert-form',
+    templateUrl: './insert-form.component.html',
+    styleUrls: ['./insert-form.component.css'],
+    standalone: true,
+    imports: [FormsModule, NgFor]
 })
 export class InsertFormComponent implements OnInit {
   types = ['SHARED', 'PRIVATE', 'VIP'];

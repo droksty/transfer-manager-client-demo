@@ -2,14 +2,17 @@ import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
 import { Client, Provider, TransferDTO } from '../transfer.interface';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClientService } from 'src/app/clients/client.service';
 import { ProviderService } from 'src/app/providers/provider.service';
+import { NgFor, NgIf, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-transfer-list',
-  templateUrl: './transfer-list.component.html',
-  styleUrls: ['./transfer-list.component.css']
+    selector: 'app-transfer-list',
+    templateUrl: './transfer-list.component.html',
+    styleUrls: ['./transfer-list.component.css'],
+    standalone: true,
+    imports: [FormsModule, ReactiveFormsModule, NgFor, NgIf, DatePipe]
 })
 export class TransferListComponent implements OnInit {
   transfers: TransferDTO[] = [];
