@@ -1,3 +1,5 @@
+import { Associate } from "../_models/associate.model";
+
 export interface Transfer {
   id?: number;
   pickupDate: Date;
@@ -9,20 +11,11 @@ export interface Transfer {
   transferTo: string;
   priceTotal: number;
   priceNet: number;
-  client?: Client;
-  provider?: Provider;
-  providerCost: number;
+  client?: Associate;
+  operator?: Associate;
+  operatorCost: number;
 }
 
-export interface Client {
-  id?: number;
-  title?: string;
-}
-
-export interface Provider {
-  id?: number;
-  name?: string;
-}
 
 
 export interface FormValue {
@@ -36,9 +29,9 @@ export interface FormValue {
   transferTo: string;
   priceTotal: number;
   priceNet: number;
-  client: Client | null;
-  provider: Provider | null;
-  providerCost: number;
+  client: Associate | null;
+  operator: Associate | null;
+  operatorCost: number;
 }
 
 export interface SearchFormData {
@@ -60,9 +53,9 @@ export class TransferDTO {
   transferTo: string;
   priceTotal: number;
   priceNet: number;
-  client: Client | null;
-  provider: Provider | null;
-  providerCost: number;
+  client: Associate | null;
+  operator: Associate | null;
+  operatorCost: number;
 
   constructor(formValue: FormValue) {
     this.id = formValue.id;
@@ -76,7 +69,7 @@ export class TransferDTO {
     this.priceTotal = formValue.priceTotal;
     this.priceNet = formValue.priceNet;
     this.client = (!formValue.client) ? null : formValue.client;
-    this.provider = (!formValue.provider) ? null : formValue.provider;
-    this.providerCost = formValue.providerCost;
+    this.operator = (!formValue.operator) ? null : formValue.operator;
+    this.operatorCost = formValue.operatorCost;
   }
 }

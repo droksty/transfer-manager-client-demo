@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
-import { Client, Provider, TransferDTO } from '../transfer.interface';
+import { TransferDTO } from '../transfer.interface';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClientService } from 'src/app/clients/client.service';
-import { ProviderService } from 'src/app/providers/provider.service';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
+import { Associate } from 'src/app/_models/associate.model';
+import { AssociateService } from 'src/app/_services/associate.service';
 
 @Component({
     selector: 'app-transfer-list',
@@ -20,21 +20,20 @@ export class TransferListComponent implements OnInit {
   transferSelected: TransferDTO = {} as TransferDTO;
   
   types = ['SHARED', 'PRIVATE', 'VIP'];
-  clientList: Client[] = [];
-  providerList: Provider[] = [];
+  associateList: Associate[] = [];
 
 
   constructor(
     private transferService: TransferService,
-    private clientService: ClientService,
-    private providerService: ProviderService
+
+    private associateService: AssociateService
   ) {}
 
 
   ngOnInit() {
     this.fetchTransferList();
-    this.clientService.data$.subscribe(data => this.clientList = data);
-    this.providerService.data$.subscribe(data => this.providerList = data);
+
+    this.associateService.data$.subscribe(data => this.associateList = data);
     this.updateForm = new FormGroup({
       'pickupDate': new FormControl(null, [Validators.required]),
       'pickupTime': new FormControl(null, [Validators.required]),
@@ -46,8 +45,8 @@ export class TransferListComponent implements OnInit {
       'priceTotal': new FormControl(null),
       'priceNet': new FormControl(null),
       'client': new FormControl(null),
-      'provider': new FormControl(null),
-      'providerCost': new FormControl(null),
+      'operator': new FormControl(null),
+      'operatorCost': new FormControl(null),
     })
   }
 
@@ -66,8 +65,8 @@ export class TransferListComponent implements OnInit {
       'priceTotal': transfer.priceTotal,
       'priceNet': transfer.priceNet,
       'client': transfer.client,
-      'provider': transfer.provider,
-      'providerCost': transfer.providerCost
+      'operator': transfer.operator,
+      'operatorCost': transfer.operatorCost
       })
     }
   }
@@ -99,8 +98,8 @@ export class TransferListComponent implements OnInit {
       'priceTotal': this.updateForm.get('priceTotal')?.value,
       'priceNet': this.updateForm.get('priceNet')?.value,
       'client': this.updateForm.get('client')?.value,
-      'provider': this.updateForm.get('provider')?.value,
-      'providerCost':this.updateForm.get('providerCost')?.value
+      'operator': this.updateForm.get('operator')?.value,
+      'operatorCost':this.updateForm.get('operatorCost')?.value
     }
 
     this.clear();

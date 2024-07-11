@@ -44,14 +44,14 @@
       <div class="form-group col-md-3 col-lg-2">
         <select id="client" class="form-control" ngModel name="clientTitle">
           <option value="" selected>Πελάτης</option>
-          <option *ngFor="let client of clientList" [ngValue]="client.title">{{ client.title }}</option>
+          <option *ngFor="let associate of associateList" [ngValue]="associate.title">{{ associate.title }}</option>
         </select>
       </div>
       <!-- Provider -->
       <div class="form-group col-md-3 col-lg-2">
-        <select id="provider" class="form-control" ngModel name="providerName">
+        <select id="operator" class="form-control" ngModel name="operatorName">
           <option value="" selected>Προμηθευτής</option>
-          <option *ngFor="let provider of providerList" [ngValue]="provider.name">{{ provider.name }}</option>
+          <option *ngFor="let associate of associateList" [ngValue]="associate.title">{{ associate.title }}</option>
         </select>
       </div>
       <!--  -->

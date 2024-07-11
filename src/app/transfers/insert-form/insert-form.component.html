@@ -3,7 +3,7 @@
     <div class="col-lg-2">
       <h2>Εισαγωγή</h2>
     </div>
-    <hr>
+    <hr />
   </div>
   <div class="row">
     <div class="col">
@@ -11,66 +11,154 @@
         <div class="row mb-3 gy-2">
           <div class="form-group col-lg-2">
             <label for="pickupDate">Ημερομηνία</label>
-            <input type="date" id="pickupDate" class="form-control" ngModel name="pickupDate" min="2024-01-01" max="2024-12-31">
+            <input
+              type="date"
+              id="pickupDate"
+              class="form-control"
+              ngModel
+              name="pickupDate"
+              min="2024-01-01"
+              max="2024-12-31"
+            />
           </div>
           <div class="form-group col-lg-2">
             <label for="pickupTime">Ώρα</label>
-            <input type="time" id="pickupTime" class="form-control" ngModel name="pickupTime">
+            <input
+              type="time"
+              id="pickupTime"
+              class="form-control"
+              ngModel
+              name="pickupTime"
+            />
           </div>
           <div class="form-group col-lg-2">
             <label for="transferFrom">Αφετηρία</label>
-            <input type="text" id="transferFrom" class="form-control" ngModel name="transferFrom">
+            <input
+              type="text"
+              id="transferFrom"
+              class="form-control"
+              ngModel
+              name="transferFrom"
+            />
           </div>
           <div class="form-group col-lg-2">
             <label for="transferTo">Προορισμός</label>
-            <input type="text" id="transferTo" class="form-control" ngModel name="transferTo">
+            <input
+              type="text"
+              id="transferTo"
+              class="form-control"
+              ngModel
+              name="transferTo"
+            />
           </div>
           <div class="form-group col-lg-2">
             <label for="pax">Άτομα</label>
-            <input type="number" id="pax" class="form-control" ngModel name="pax" min="1" max="20" >
+            <input
+              type="number"
+              id="pax"
+              class="form-control"
+              ngModel
+              name="pax"
+              min="1"
+              max="20"
+            />
           </div>
           <div class="form-group col-lg-2">
             <label for="type">Κατηγορία</label>
             <select id="type" class="form-control" ngModel name="type">
               <option value="" selected>Επιλογή</option>
-              <option *ngFor="let type of types;">{{ type }}</option>
+              <option *ngFor="let type of types">{{ type }}</option>
             </select>
           </div>
           <div class="form-group col-lg-2">
             <label for="passengerName">Όνομα</label>
-            <input type="text" id="passengerName" class="form-control" ngModel name="passengerName">
+            <input
+              type="text"
+              id="passengerName"
+              class="form-control"
+              ngModel
+              name="passengerName"
+            />
           </div>
           <div class="form-group col-lg-2">
             <label for="priceTotal">Σύνολο</label>
-            <input type="number" min="0" max="200" id="priceTotal" class="form-control" ngModel name="priceTotal">
+            <input
+              type="number"
+              min="0"
+              max="200"
+              id="priceTotal"
+              class="form-control"
+              ngModel
+              name="priceTotal"
+            />
           </div>
           <div class="form-group col-lg-2">
             <label for="priceNet">Net</label>
-            <input type="number" min="0" max="200" id="priceNet" class="form-control" ngModel name="priceNet">
+            <input
+              type="number"
+              min="0"
+              max="200"
+              id="priceNet"
+              class="form-control"
+              ngModel
+              name="priceNet"
+            />
           </div>
           <div class="form-group col-lg-2">
             <label for="client">Πελάτης</label>
             <select id="client" class="form-control" ngModel name="client">
               <option value="" selected>Επιλογή</option>
-              <option *ngFor="let client of clientList" [ngValue]="client">{{ client.title }}</option>
+              <option
+                *ngFor="let associate of associateList"
+                [ngValue]="associate"
+              >
+                {{ associate.title }}
+              </option>
             </select>
           </div>
           <div class="form-group col-lg-2">
-            <label for="provider">Προμηθευτής</label>
-            <select id="provider" class="form-control" ngModel name="provider">
+            <label for="operator">Προμηθευτής</label>
+            <select id="operator" class="form-control" ngModel name="operator">
               <option value="" selected>Επιλογή</option>
-              <option *ngFor="let provider of providerList" [ngValue]="provider">{{ provider.name }}</option>
+              <option
+                *ngFor="let associate of associateList"
+                [ngValue]="associate"
+              >
+                {{ associate.title }}
+              </option>
             </select>
           </div>
           <div class="form-group col-lg-2">
-            <label for="providerCost">Κόστος</label>
-            <input type="number" min="0" max="100" id="providerCost" class="form-control" ngModel name="providerCost">
+            <label for="operatorCost">Κόστος</label>
+            <input
+              type="number"
+              min="0"
+              max="100"
+              id="operatorCost"
+              class="form-control"
+              ngModel
+              name="operatorCost"
+            />
           </div>
         </div>
         <div class="row">
           <div class="form-group d-flex justify-content-end gap-1">
-            <button class="btn btn-success btn-block" type="submit" [disabled]="!insertForm.valid">Εισαγωγή</button>
-            <button class="btn btn-danger btn-block" type="button" (click)="insertForm.resetForm({ type: '', client: '', provider: '' })">Εκκαθάριση</button>
+            <button
+              class="btn btn-success btn-block"
+              type="submit"
+              [disabled]="!insertForm.valid"
+            >
+              Εισαγωγή
+            </button>
+            <button
+              class="btn btn-danger btn-block"
+              type="button"
+              (click)="
+                insertForm.resetForm({ type: '', client: '', provider: '' })
+              "
+            >
+              Εκκαθάριση
+            </button>
           </div>
         </div>
         <!-- Alternative buttons layout -->

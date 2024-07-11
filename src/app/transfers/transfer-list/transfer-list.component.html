@@ -32,8 +32,8 @@
             <td class="text-nowrap">{{ transfer.client?.title }}</td>
             <td>{{ transfer.priceTotal }}</td>
             <td>{{ transfer.priceNet }}</td>
-            <td class="text-nowrap">{{ transfer.provider?.name }}</td>
-            <td>{{ transfer.providerCost }}</td>
+            <td class="text-nowrap">{{ transfer.operator?.title }}</td>
+            <td>{{ transfer.operatorCost }}</td>
             <td><button type="button" class="btn btn-outline-danger" (click)="onDelete(transfer.id!)">Delete</button></td>
           </tr>
 
@@ -102,7 +102,7 @@
               <select class="form-control w-auto" formControlName="client">
                 <option class="bg-warning" [ngValue]="transfer.client" selected>{{ transfer.client?.title }}</option>
                 <hr>
-                <option *ngFor="let client of clientList;" [ngValue]="client">{{ client.title }} </option>
+                <option *ngFor="let associate of associateList;" [ngValue]="transfer.client">{{ associate.title }} </option>
               </select>
             </td>
             <td>
@@ -123,10 +123,10 @@
             </td>
             <td>
               <!-- Do rework later -->
-              <select class="form-control w-auto" formControlName="provider">
-                <option class="bg-warning" [ngValue]="transfer.provider" selected>{{ transfer.provider?.name }}</option>
+              <select class="form-control w-auto" formControlName="operator">
+                <option class="bg-warning" [ngValue]="transfer.operator" selected>{{ transfer.operator?.title }}</option>
                 <hr>
-                <option *ngFor="let provider of providerList;" [ngValue]="provider">{{ provider.name }}</option>
+                <option *ngFor="let associate of associateList;" [ngValue]="transfer.operator">{{ associate.title }}</option>
               </select>
             </td>
             <td>
@@ -134,7 +134,7 @@
                 type="number"
                 class="form-control customLength"
                 formControlName="providerCost"
-                [value]="transfer.providerCost"
+                [value]="transfer.operatorCost"
               />
             </td>
             <td>

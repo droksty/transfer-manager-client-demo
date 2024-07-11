@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Client, Provider, SearchFormData } from '../transfers/transfer.interface';
-import { ClientService } from '../clients/client.service';
-import { ProviderService } from '../providers/provider.service';
+import { SearchFormData } from '../transfers/transfer.interface';
+
 import { NgIf, NgFor } from '@angular/common';
+import { Associate } from '../_models/associate.model';
+import { AssociateService } from '../_services/associate.service';
 
 @Component({
     selector: 'app-search-bar',
@@ -16,15 +17,13 @@ import { NgIf, NgFor } from '@angular/common';
 })
 export class SearchBarComponent implements OnInit {
   searchBetween: boolean = false;
-  clientList: Client[] = [];
-  providerList: Provider[] = [];
+  associateList: Associate[] = [];
 
-  constructor(private router: Router, private clientService: ClientService, private providerService: ProviderService) { }
+  constructor(private associateService: AssociateService, private router: Router) { }
 
   ngOnInit() {
     if (this.router.url === '/transfers/search-within-range') this.searchBetween = true;
-    this.clientService.data$.subscribe(data => this.clientList = data);
-    this.providerService.data$.subscribe(data => this.providerList = data);
+    this.associateService.data$.subscribe(data => this.associateList = data);
   }
 
   onSubmit(searchForm: NgForm) {
@@ -36,7 +35,7 @@ export class SearchBarComponent implements OnInit {
       from: formData.pickupDateFrom,
       to: formData.pickupDateTo,
       client: formData.clientTitle, 
-      provider:formData.providerName
+      provider: formData.providerName
     }})
   }
 
