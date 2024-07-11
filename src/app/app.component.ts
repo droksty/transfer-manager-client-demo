@@ -10,5 +10,4 @@ import { NavbarComponent } from './navbar/navbar.component';
     imports: [NavbarComponent, RouterOutlet]
 })
 export class AppComponent {
-  title = 'transfers-demo-client';
 }
