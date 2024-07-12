@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
-import { NgFor } from '@angular/common';
 
 import { TransferService } from '../transfer.service';
 import { TransferDTO, TRANSFER_TYPES } from '../transfer.interface';
@@ -12,7 +11,7 @@ import { AssociateService } from 'src/app/_services/associate.service';
     templateUrl: './insert-form.component.html',
     styleUrls: ['./insert-form.component.css'],
     standalone: true,
-    imports: [FormsModule, NgFor]
+    imports: [FormsModule]
 })
 export class InsertFormComponent implements OnInit {
   types = TRANSFER_TYPES;
