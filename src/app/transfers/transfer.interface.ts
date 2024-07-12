@@ -17,6 +17,9 @@ export interface Transfer {
 }
 
 
+export const TRANSFER_TYPES = [
+  'SHARED', 'PRIVATE', 'VIP'
+]
 
 export interface FormValue {
   id?: number;

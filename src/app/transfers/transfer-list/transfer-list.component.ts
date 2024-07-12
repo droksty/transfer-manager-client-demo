@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
-import { TransferDTO } from '../transfer.interface';
+import { TRANSFER_TYPES, TransferDTO } from '../transfer.interface';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { Associate } from 'src/app/_models/associate.model';
@@ -19,7 +19,7 @@ export class TransferListComponent implements OnInit {
   updateForm!: FormGroup;
   transferSelected: TransferDTO = {} as TransferDTO;
   
-  types = ['SHARED', 'PRIVATE', 'VIP'];
+  types = TRANSFER_TYPES;
   associateList: Associate[] = [];
 
 

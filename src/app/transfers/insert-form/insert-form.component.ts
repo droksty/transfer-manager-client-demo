@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
-import { TransferDTO } from '../transfer.interface';
-import { TransferService } from '../transfer.service';
 import { NgFor } from '@angular/common';
+
+import { TransferService } from '../transfer.service';
+import { TransferDTO, TRANSFER_TYPES } from '../transfer.interface';
 import { Associate } from 'src/app/_models/associate.model';
 import { AssociateService } from 'src/app/_services/associate.service';
 
@@ -14,10 +15,13 @@ import { AssociateService } from 'src/app/_services/associate.service';
     imports: [FormsModule, NgFor]
 })
 export class InsertFormComponent implements OnInit {
-  types = ['SHARED', 'PRIVATE', 'VIP'];
+  types = TRANSFER_TYPES;
   associateList: Associate[] = [];
   
-  constructor(private associateService: AssociateService, private service: TransferService) {}
+  constructor(
+    private associateService: AssociateService,
+    private service: TransferService
+  ) {}
   
   ngOnInit() {
     this.associateService.data$.subscribe(data => this.associateList = data);
