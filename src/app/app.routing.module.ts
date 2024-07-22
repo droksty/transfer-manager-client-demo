@@ -5,8 +5,10 @@ import { TransferListComponent } from "./transfers/transfer-list/transfer-list.c
 import { InsertFormComponent } from "./transfers/insert-form/insert-form.component";
 import { NotImplementedComponent } from "./not-implemented/not-implemented.component";
 import { SearchBarComponent } from "./search-bar/search-bar.component";
+import { HomeComponent } from "./home/home.component";
 
 const routes: Routes = [
+  { path: '', component: HomeComponent },
   { path: 'transfers', children: [
     { path: 'insert', component: InsertFormComponent },
     { path: 'search-by-date', component: SearchBarComponent },
