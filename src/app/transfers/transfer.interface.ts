@@ -50,7 +50,7 @@ export class TransferDTO {
   pickupDate: Date;
   pickupTime: Date;
   passengerName: string;
-  pax: number;
+  totalPax: number;
   type?: string;
   transferFrom: string;
   transferTo: string;
@@ -65,7 +65,7 @@ export class TransferDTO {
     this.pickupDate = formValue.pickupDate;
     this.pickupTime = formValue.pickupTime;
     this.passengerName = formValue.passengerName;
-    this.pax = formValue.pax;
+    this.totalPax = formValue.pax;
     this.type = (!formValue.type) ? undefined : formValue.type;
     this.transferFrom = formValue.transferFrom;
     this.transferTo = formValue.transferTo;

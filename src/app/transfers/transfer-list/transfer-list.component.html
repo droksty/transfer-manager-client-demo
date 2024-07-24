@@ -1,4 +1,4 @@
-<form [formGroup]="updateForm" >
+<form [formGroup]="updateForm">
   <div class="table-responsive">
     <table class="table table-striped table-hover">
       <thead>
@@ -18,140 +18,178 @@
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        <ng-container *ngFor="let transfer of transfers">
-          
-          <!-- Normal row -->
-          <tr *ngIf="transferSelected !== transfer" (click)="selectTransfer(transfer)">
-            <td>{{ transfer.pickupDate | date: 'dd/MMM' }}</td>
-            <td>{{ transfer.pickupTime.toString().substring(0,5) }}</td>
-            <td class="text-nowrap">{{ transfer.passengerName }}</td>
-            <td>{{ transfer.pax }}</td>
-            <td class="text-nowrap">{{ transfer.transferFrom }}</td>
-            <td class="text-nowrap">{{ transfer.transferTo }}</td>
-            <td>{{ transfer.type }}</td>
-            <td class="text-nowrap">{{ transfer.client?.title }}</td>
-            <td>{{ transfer.priceTotal }}</td>
-            <td>{{ transfer.priceNet }}</td>
-            <td class="text-nowrap">{{ transfer.operator?.title }}</td>
-            <td>{{ transfer.operatorCost }}</td>
-            <td><button type="button" class="btn btn-outline-danger" (click)="onDelete(transfer.id!)">Delete</button></td>
-          </tr>
-
-          <!-- Selected row -->
-          <tr *ngIf="transferSelected === transfer" class="table-primary">
-            <td>
-              <input
-                type="date"
-                class="form-control"
-                formControlName="pickupDate"
-                [value]="transfer.pickupDate"
-                min="2024-01-01" 
-                max="2024-12-31"
+        @for (transfer of transfers; track $index) {
+          @if (transfer !== selectedTransfer) {
+            <!-- Normal table row; No transfer has been selected -->
+            <tr (click)="onSelectTransfer(transfer)">
+              <td>
+                {{ transfer.pickupDate | date : "dd/M" }}
+              </td>
+              <td>
+                {{ transfer.pickupTime.toString().substring(0, 5) }}
+              </td>
+              <td class="text-nowrap">
+                {{ transfer.passengerName }}
+              </td>
+              <td>
+                {{ transfer.totalPax }}
+              </td>
+              <td class="text-nowrap">
+                {{ transfer.transferFrom }}
+              </td>
+              <td class="text-nowrap">
+                {{ transfer.transferTo }}
+              </td>
+              <td>
+                {{ transfer.type }}
+              </td>
+              <td class="text-nowrap">
+                {{ transfer.client?.title }}
+              </td>
+              <td>
+                {{ transfer.priceTotal }}
+              </td>
+              <td>
+                {{ transfer.priceNet }}
+              </td>
+              <td class="text-nowrap">
+                {{ transfer.operator?.title }}
+              </td>
+              <td>
+                {{ transfer.operatorCost }}
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger"
+                  (click)="onDeleteTransfer(transfer.id!)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          } @else {
+            <!-- When a transfer is selected by clicking on its row, make the entire row editable  -->
+            <tr class="table-primary">
+              <td>
+                <input
+                  type="date"
+                  class="form-control"
+                  style="width: 90px;"
+                  formControlName="pickupDate"
+                  [value]="transfer.pickupDate"
+                  min="2024-01-01"
+                  max="2024-12-31"
                 />
-            </td>
-            <td>
-              <input
-                type="time"
-                class="form-control"
-                formControlName="pickupTime"
-                [value]="transfer.pickupTime"
+              </td>
+              <td>
+                <input
+                  type="time"
+                  class="form-control"
+                  style="width: 100px;"
+                  formControlName="pickupTime"
+                  [value]="transfer.pickupTime"
                 />
-            </td>
-            <td>
-              <input
-                type="text"
-                class="form-control w-auto"
-                formControlName="passengerName"
-                [value]="transfer.passengerName"
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control customLengthForText"
+                  formControlName="passengerName"
+                  [value]="transfer.passengerName"
                 />
-            </td>
-            <td>
-              <input
-                type="number"
-                class="form-control customLength"
-                formControlName="pax"
-                [value]="transfer.pax"
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control customLengthForNumbers"
+                  formControlName="totalPax"
+                  [value]="transfer.totalPax"
                 />
-            </td>
-            <td>
-              <input
-                type="text"
-                class="form-control w-auto"
-                formControlName="transferFrom"
-                [value]="transfer.transferFrom"
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control customLengthForText"
+                  formControlName="transferFrom"
+                  [value]="transfer.transferFrom"
                 />
-            </td>
-            <td>
-              <input
-                type="text"
-                class="form-control w-auto"
-                formControlName="transferTo"
-                [value]="transfer.transferTo"
-              />
-            </td>
-            <td>
-              <!-- Do rework later -->
-              <select class="form-control w-auto" formControlName="type">
-                <option class="bg-warning" [value]="transfer.type" selected>{{ transfer.type }}</option>
-                <hr>
-                <option *ngFor="let type of types;">{{ type }}</option>
-              </select>
-            </td>
-            <td>
-              <!-- Do rework later -->
-              <select class="form-control w-auto" formControlName="client">
-                <option class="bg-warning" [ngValue]="transfer.client" selected>{{ transfer.client?.title }}</option>
-                <hr>
-                <option *ngFor="let associate of associateList;" [ngValue]="transfer.client">{{ associate.title }} </option>
-              </select>
-            </td>
-            <td>
-              <input
-                type="number"
-                class="form-control customLength"
-                formControlName="priceTotal"
-                [value]="transfer.priceTotal"
-              />
-            </td>
-            <td>
-              <input
-                type="number"
-                class="form-control customLength"
-                formControlName="priceNet"
-                [value]="transfer.priceNet"
-              />
-            </td>
-            <td>
-              <!-- Do rework later -->
-              <select class="form-control w-auto" formControlName="operator">
-                <option class="bg-warning" [ngValue]="transfer.operator" selected>{{ transfer.operator?.title }}</option>
-                <hr>
-                <option *ngFor="let associate of associateList;" [ngValue]="transfer.operator">{{ associate.title }}</option>
-              </select>
-            </td>
-            <td>
-              <input
-                type="number"
-                class="form-control customLength"
-                formControlName="providerCost"
-                [value]="transfer.operatorCost"
-              />
-            </td>
-            <td>
-              <div class="btn-group" >
-                <button class="btn btn-outline-success" (click)="onUpdate()">Update</button>
-                <button type="button" class="btn btn-outline-danger" (click)="clear()">Cancel</button>
-              </div>
-            </td>
-          </tr>
-
-        </ng-container>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control customLengthForText"
+                  formControlName="transferTo"
+                  [value]="transfer.transferTo"
+                />
+              </td>
+              <td>
+                <!-- Do rework later -->
+                <select class="form-control w-auto" formControlName="type">
+                  <option class="bg-warning" [value]="transfer.type" selected></option>
+                  <hr />
+                  @for (type of types; track $index) {
+                    <option>{{ type }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <!-- Do rework later -->
+                <select class="form-control w-auto" formControlName="client">
+                  <option class="bg-warning" [ngValue]="transfer.client" selected>
+                    {{ transfer.client?.title }}
+                  </option>
+                  <hr />
+                  @for (associate of associateList; track $index) {
+                    <option [ngValue]="associate">{{ associate.title }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control customLengthForNumbers"
+                  formControlName="priceTotal"
+                  [value]="transfer.priceTotal"
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control customLengthForNumbers"
+                  formControlName="priceNet"
+                  [value]="transfer.priceNet"
+                />
+              </td>
+              <td>
+                <!-- Do rework later -->
+                <select class="form-control w-auto" formControlName="operator">
+                  <option class="bg-warning" [ngValue]="transfer.operator" selected>
+                    {{ transfer.operator?.title }}
+                  </option>
+                  <hr />
+                  @for (associate of associateList; track $index) {
+                    <option [ngValue]="associate">{{ associate.title }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control customLengthForNumbers"
+                  formControlName="operatorCost"
+                  [value]="transfer.operatorCost"
+                />
+              </td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-outline-success" (click)="onUpdateTransfer()">Update</button>
+                  <button type="button" class="btn btn-outline-danger" (click)="clear()">Cancel</button>
+                </div>
+              </td>
+            </tr>
+          }
+        }
       </tbody>
     </table>
   </div>
 </form>
-
-
-
-
-
