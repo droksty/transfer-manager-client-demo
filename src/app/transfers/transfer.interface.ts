@@ -76,3 +76,11 @@ export class TransferDTO {
     this.operatorCost = formValue.operatorCost;
   }
 }
+
+
+export interface TransferListDTO {
+  transfers: TransferDTO[];
+  totalSales: Number;
+  totalNet: Number;
+  totalCost: Number;
+}

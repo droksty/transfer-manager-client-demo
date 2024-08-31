@@ -107,7 +107,8 @@ export class TransferListComponent implements OnInit {
 
   private fetchTransferList() {
     this.transferService.getTransferList().subscribe(transferList => {
-      this.transfers = transferList;
+      console.log(transferList);
+      this.transfers = transferList.transfers;
     });
   }
 
