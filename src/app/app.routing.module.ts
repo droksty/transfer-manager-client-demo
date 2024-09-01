@@ -11,8 +11,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'transfers', children: [
     { path: 'insert', component: InsertFormComponent },
-    { path: 'search-by-date', component: SearchBarComponent },
-    { path: 'search-within-range', component: SearchBarComponent },
+    { path: 'search', component: SearchBarComponent },
     { path: 'list', component: TransferListComponent },
   ] },
   { path: '**', component: NotImplementedComponent }
