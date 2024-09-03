@@ -16,6 +16,10 @@ import { AssociateService } from 'src/app/_services/associate.service';
 })
 export class TransferListComponent implements OnInit {
   transfers: TransferDTO[] = [];
+  totalPrice: Number = 0;
+  totalNet: Number = 0;
+  totalCost: Number = 0;
+
   updateForm!: FormGroup;
   selectedTransfer: TransferDTO = {} as TransferDTO;
   types = TRANSFER_TYPES;
@@ -109,6 +113,9 @@ export class TransferListComponent implements OnInit {
     this.transferService.getTransferList().subscribe(transferList => {
       console.log(transferList);
       this.transfers = transferList.transfers;
+      this.totalPrice = transferList.totalSales;
+      this.totalNet = transferList.totalNet;
+      this.totalCost = transferList.totalCost;
     });
   }
 
