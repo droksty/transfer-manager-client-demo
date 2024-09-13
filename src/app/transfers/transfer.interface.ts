@@ -42,7 +42,7 @@ export interface SearchFormData {
   pickupDateFrom: '';
   pickupDateTo: '';
   clientTitle: '';
-  providerName: '';
+  operatorTitle: '';
 }
 
 export class TransferDTO {

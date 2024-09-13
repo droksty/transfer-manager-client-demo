@@ -9,11 +9,16 @@ import { HomeComponent } from "./home/home.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'transfers', children: [
+  { path: 'insert-transfers', component: InsertFormComponent },
+  { path: 'search-transfers', component: SearchBarComponent },
+  { path: 'search-transfers/with', component: TransferListComponent },
+
+  /* { path: 'transfers', children: [
     { path: 'insert', component: InsertFormComponent },
     { path: 'search', component: SearchBarComponent },
     { path: 'list', component: TransferListComponent },
-  ] },
+  ] }, */
+
   { path: '**', component: NotImplementedComponent }
 ];
 
