@@ -34,9 +34,8 @@ export class SearchBarComponent implements OnInit {
   onSubmit(searchForm: NgForm) {
     let formData: SearchFormData = searchForm.value;
 
-    this.router.navigate(['search-transfers/with'], {
+    this.router.navigate(['list-transfers'], {
       queryParams: {
-        // date: formData.date,
         from: formData.pickupDateFrom,
         to: formData.pickupDateTo,
         client: formData.clientTitle,

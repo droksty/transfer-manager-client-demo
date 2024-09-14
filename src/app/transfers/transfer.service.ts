@@ -6,30 +6,31 @@ import { TransferDTO, TransferListDTO } from "./transfer.interface";
 
 @Injectable()
 export class TransferService {
-  API_URL: string = 'http://localhost:8080/transfers';
+  API_URI: string = 'http://localhost:8080/transfers';
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
 
-/*   getTransferList() {
-    const searchQuery = this.route.snapshot.queryParams;
-    return this.http.get<TransferListDTO>(this.API_URL + (searchQuery.hasOwnProperty('date') ? '' : '/dates-between'), { params: searchQuery });
-  } */
-  getTransferList() {
-    const searchQuery = this.route.snapshot.queryParams;
-    return this.http.get<TransferListDTO>(this.API_URL, { params: searchQuery });
-  }
-
   insertTransfer(transferDTO: TransferDTO) {
-    this.http.post<TransferDTO>(this.API_URL, transferDTO).subscribe(data => console.log(data));
-  }
-
-  deleteTransfer(id: number) {
-    return this.http.delete(`${this.API_URL}/${id}`, { responseType: 'text' });
-    // return this.http.delete(`${this.API_URL}/${id}`);
+    this.http.post<TransferDTO>(this.API_URI, transferDTO).subscribe(data => console.log(data));
   }
 
   updateTransfer(transferDTO: TransferDTO) {
-    return this.http.put<TransferDTO>(this.API_URL, transferDTO);
+    return this.http.put<TransferDTO>(this.API_URI, transferDTO);
   }
+
+  deleteTransfer(id: number) {
+    return this.http.delete(`${this.API_URI}/${id}`, { responseType: 'text' });
+  }
+
+  getTransferList() {
+    const searchQuery = this.route.snapshot.queryParams;
+    return this.http.get<TransferListDTO>(this.API_URI, { params: searchQuery });
+  }
+
+  
+
+  
+
+  
 }
