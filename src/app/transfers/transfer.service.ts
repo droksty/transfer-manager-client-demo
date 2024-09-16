@@ -2,7 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
-import { TransferDTO, TransferListDTO } from "./transfer.interface";
+import { TransferListDTO } from "./transfer.interface";
+import { Transfer } from "../_models/transfer.model";
 
 @Injectable()
 export class TransferService {
@@ -11,12 +12,12 @@ export class TransferService {
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
 
-  insertTransfer(transferDTO: TransferDTO) {
-    this.http.post<TransferDTO>(this.API_URI, transferDTO).subscribe(data => console.log(data));
+  insertTransfer(transfer: Transfer) {
+    this.http.post<Transfer>(this.API_URI, transfer).subscribe(data => console.log(data));
   }
 
-  updateTransfer(transferDTO: TransferDTO) {
-    return this.http.put<TransferDTO>(this.API_URI, transferDTO);
+  updateTransfer(Transfer: Transfer) {
+    return this.http.put<Transfer>(this.API_URI, Transfer);
   }
 
   deleteTransfer(id: number) {

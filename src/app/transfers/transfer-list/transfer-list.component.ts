@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
-import { TRANSFER_TYPES, TransferDTO } from '../transfer.interface';
+import { TRANSFER_TYPES } from '../transfer.interface';
+import { Transfer } from "src/app/_models/transfer.model";
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Associate } from 'src/app/_models/associate.model';
@@ -15,13 +16,13 @@ import { AssociateService } from 'src/app/_services/associate.service';
     imports: [FormsModule, ReactiveFormsModule, DatePipe]
 })
 export class TransferListComponent implements OnInit {
-  transfers: TransferDTO[] = [];
+  transfers: Transfer[] = [];
   totalPrice: Number = 0;
   totalNet: Number = 0;
   totalCost: Number = 0;
 
   updateForm!: FormGroup;
-  selectedTransfer: TransferDTO = {} as TransferDTO;
+  selectedTransfer: Transfer = {} as Transfer;
   types = TRANSFER_TYPES;
   associateList: Associate[] = [];
 
@@ -51,7 +52,7 @@ export class TransferListComponent implements OnInit {
     });
   }
 
-  onSelectTransfer(transfer: TransferDTO) {
+  onSelectTransfer(transfer: Transfer) {
     if (Object.keys(this.selectedTransfer).length === 0) {
       this.selectedTransfer = transfer;
       this.updateForm.patchValue({
@@ -72,9 +73,9 @@ export class TransferListComponent implements OnInit {
   }
 
   onUpdateTransfer() {
-    let transferDTO: TransferDTO = this.buildDTO();
+    let transfer: Transfer = this.buildDTO();
     this.clear();
-    this.updateTransfer(transferDTO);
+    this.updateTransfer(transfer);
     this.fetchTransferList();
   }
 
@@ -84,14 +85,14 @@ export class TransferListComponent implements OnInit {
   }
 
   protected clear() {
-    this.selectedTransfer = {} as TransferDTO;
+    this.selectedTransfer = {} as Transfer;
     this.updateForm.reset();
   }
 
   
   /* Helper methods */
 
-  private buildDTO(): TransferDTO {
+  private buildDTO(): Transfer {
     return {
       'id': this.selectedTransfer.id,
       'pickupDate': this.updateForm.get('pickupDate')?.value,
@@ -119,7 +120,7 @@ export class TransferListComponent implements OnInit {
     });
   }
 
-  private updateTransfer(updatedTransfer: TransferDTO) {
+  private updateTransfer(updatedTransfer: Transfer) {
     this.transferService.updateTransfer(updatedTransfer).subscribe({
       next: () => console.log('Updating..'),
       error: (error: any) => console.log(error),
