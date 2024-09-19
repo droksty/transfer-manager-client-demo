@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
 import { TRANSFER_TYPES } from '../transfer.interface';
+import { TransferList } from "src/app/_models/transfer-list.model";
 import { Transfer } from "src/app/_models/transfer.model";
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -16,10 +17,11 @@ import { AssociateService } from 'src/app/_services/associate.service';
     imports: [FormsModule, ReactiveFormsModule, DatePipe]
 })
 export class TransferListComponent implements OnInit {
-  transfers: Transfer[] = [];
-  totalPrice: Number = 0;
+  transferList: TransferList = {} as TransferList;
+  /* transfers: Transfer[] = [];
+  totalSales: Number = 0;
   totalNet: Number = 0;
-  totalCost: Number = 0;
+  totalCost: Number = 0; */
 
   updateForm!: FormGroup;
   selectedTransfer: Transfer = {} as Transfer;
@@ -113,10 +115,11 @@ export class TransferListComponent implements OnInit {
   private fetchTransferList() {
     this.transferService.getTransferList().subscribe(transferList => {
       console.log(transferList);
-      this.transfers = transferList.transfers;
-      this.totalPrice = transferList.totalSales;
+      /* this.transfers = transferList.transfers;
+      this.totalSales = transferList.totalSales;
       this.totalNet = transferList.totalNet;
-      this.totalCost = transferList.totalCost;
+      this.totalCost = transferList.totalCost; */
+      this.transferList = transferList;
     });
   }
 

@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
-import { TransferListDTO } from "./transfer.interface";
+import { TransferList } from "../_models/transfer-list.model";
 import { Transfer } from "../_models/transfer.model";
 
 @Injectable()
@@ -26,7 +26,7 @@ export class TransferService {
 
   getTransferList() {
     const searchQuery = this.route.snapshot.queryParams;
-    return this.http.get<TransferListDTO>(this.API_URI, { params: searchQuery });
+    return this.http.get<TransferList>(this.API_URI, { params: searchQuery });
   }
 
   
