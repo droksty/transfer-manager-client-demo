@@ -8,9 +8,9 @@
           placeholder="Από"
           onfocus="(this.type='date')" 
           onblur="(this.type='text')" 
-          id="pickupDateFrom" 
+          id="fromDate" 
           class="form-control" 
-          ngModel name="pickupDateFrom"  
+          ngModel name="fromDate"  
           min="2024-01-01" 
           max="2024-12-31">
       </div>
@@ -21,24 +21,32 @@
           placeholder="Έως"
           onfocus="(this.type='date')" 
           onblur="(this.type='text')" 
-          id="pickupDateTo" 
+          id="toDate" 
           class="form-control" 
-          ngModel name="pickupDateTo"  
+          ngModel name="toDate"  
           min="2024-01-01" 
           max="2024-12-31">
       </div>
       <!-- Client -->
       <div class="form-group col-md-3 col-lg-2">
-        <select id="client" class="form-control" ngModel name="clientTitle">
+        <select id="client" class="form-control" ngModel name="client">
           <option value="" selected>Πελάτης</option>
-          <option *ngFor="let associate of associateList" [ngValue]="associate.title">{{ associate.title }}</option>
+          @for (associate of associateList; track $index) {
+            <option [ngValue]="associate.title">
+              {{ associate.title }}
+            </option>
+          }
         </select>
       </div>
-      <!-- Provider -->
+      <!-- Operator -->
       <div class="form-group col-md-3 col-lg-2">
-        <select id="operator" class="form-control" ngModel name="operatorTitle">
+        <select id="operator" class="form-control" ngModel name="operator">
           <option value="" selected>Προμηθευτής</option>
-          <option *ngFor="let associate of associateList" [ngValue]="associate.title">{{ associate.title }}</option>
+          @for (associate of associateList; track $index) {
+            <option [ngValue]="associate.title">
+              {{ associate.title }}
+            </option>
+          }
         </select>
       </div>
       <!--  -->
