@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
-import { TRANSFER_TYPES } from '../transfer.interface';
+import { TRANSFER_TYPES } from "src/app/_models/transfer.model";
 import { TransferList } from "src/app/_models/transfer-list.model";
 import { Transfer } from "src/app/_models/transfer.model";
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,7 +25,7 @@ export class TransferListComponent implements OnInit {
 
   updateForm!: FormGroup;
   selectedTransfer: Transfer = {} as Transfer;
-  types = TRANSFER_TYPES;
+  types = Object.keys(TRANSFER_TYPES);
   associateList: Associate[] = [];
 
 

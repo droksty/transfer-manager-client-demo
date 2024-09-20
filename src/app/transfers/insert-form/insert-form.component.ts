@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 
 import { TransferService } from '../transfer.service';
-import { TRANSFER_TYPES } from '../transfer.interface';
+import { TRANSFER_TYPES } from "src/app/_models/transfer.model";
 import { Transfer } from "src/app/_models/transfer.model";
 import { Associate } from 'src/app/_models/associate.model';
 import { AssociateService } from 'src/app/_services/associate.service';
@@ -15,7 +15,7 @@ import { AssociateService } from 'src/app/_services/associate.service';
     imports: [FormsModule]
 })
 export class InsertFormComponent implements OnInit {
-  types = TRANSFER_TYPES;
+  types = Object.keys(TRANSFER_TYPES);
   associateList: Associate[] = [];
   
   constructor(
@@ -30,7 +30,7 @@ export class InsertFormComponent implements OnInit {
   submit(insertForm: NgForm) {
     const transfer: Transfer = insertForm.value;
     console.log(transfer);
-    if (transfer.type == '')
+    if (!transfer.type)
       transfer.type = undefined;
     if (!transfer.operator)
       transfer.operator = null;
