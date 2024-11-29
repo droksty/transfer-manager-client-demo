@@ -26,6 +26,7 @@ function demoResponseInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
 // Refactor and optimize later?
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(BrowserModule, AppRoutingModule), provideHttpClient(withInterceptors([demoInterceptor, demoResponseInterceptor]))
+    importProvidersFrom(BrowserModule, AppRoutingModule),
+    provideHttpClient(withInterceptors([demoInterceptor, demoResponseInterceptor]))
   ]
 }

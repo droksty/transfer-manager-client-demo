@@ -1,12 +1,11 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TransferService } from '../../_services/transfer.service';
 import { TRANSFER_TYPES } from "src/app/_models/transfer.model";
 import { TransferList } from "src/app/_models/transfer-list.model";
 import { Transfer } from "src/app/_models/transfer.model";
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { Associate } from 'src/app/_models/associate.model';
 import { AssociateService } from 'src/app/_services/associate.service';
 
 @Component({
@@ -23,11 +22,14 @@ export class TransferListComponent implements OnInit {
 
   associates = this.associateService.loadedAssociates;
 
+  
   transferList: TransferList = {} as TransferList;
   updateForm!: FormGroup;
   selectedTransfer: Transfer = {} as Transfer;
   types = Object.keys(TRANSFER_TYPES);
-  
+
+  isFetching = signal(false);
+  error = signal('');
  
 
   ngOnInit() {
@@ -37,7 +39,6 @@ export class TransferListComponent implements OnInit {
       error: (error) => console.log(error),
       complete: () => console.log(this.associates())
     });
-
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
 
     this.updateForm = new FormGroup({
@@ -76,18 +77,21 @@ export class TransferListComponent implements OnInit {
     }
   }
 
-  onUpdateTransfer() {
-    let transfer: Transfer = this.buildDTO();
-    this.clear();
-    this.updateTransfer(transfer);
-    this.fetchTransferList();
+  updateSelectedTransfer() {
+    const transfer: Transfer = this.buildDTO();
+    const subscription = this.transferService.updateTransfer(transfer).subscribe({
+      next: () => console.log('Updating..'),
+      error: (error: any) => console.log(error),
+      complete: () => {
+        this.clear()
+        console.log('Updated!');
+        this.fetchTransferList();
+      }
+    });
+    this.destroyRef.onDestroy(()=>subscription.unsubscribe());
   }
 
-  onDeleteTransfer(id: number) {
-    // Add prompt to confirm
-    this.deleteTransfer(id);
-  }
-
+  
   protected clear() {
     this.selectedTransfer = {} as Transfer;
     this.updateForm.reset();
@@ -113,37 +117,32 @@ export class TransferListComponent implements OnInit {
       'operatorCost':this.updateForm.get('operatorCost')?.value
     };
   }
-
+  
+  
   private fetchTransferList() {
-    this.transferService.getTransferList().subscribe(transferList => {
-      console.log(transferList);
-      /* this.transfers = transferList.transfers;
-      this.totalSales = transferList.totalSales;
-      this.totalNet = transferList.totalNet;
-      this.totalCost = transferList.totalCost; */
-      this.transferList = transferList;
+    this.isFetching.set(true);
+    
+    const subscription = this.transferService.getTransferList().subscribe({
+      next: transferList => this.transferList = transferList,
+      error: (error) => this.error.set(error.message),
+      complete: () => this.isFetching.set(false)
     });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
+  
+  
 
-  private updateTransfer(updatedTransfer: Transfer) {
-    this.transferService.updateTransfer(updatedTransfer).subscribe({
-      next: () => console.log('Updating..'),
-      error: (error: any) => console.log(error),
+
+  // Refactoring
+  protected deleteSelectedTransfer(id: number) {
+    // Add prompt to confirm action?
+    const subscription = this.transferService.deleteTransfer(id).subscribe({
+      error: (error) => console.log(error),
       complete: () => {
-        console.log('Updated!');
+        // Add modal to inform about successful delete?
         this.fetchTransferList();
       }
     });
-  }
-
-  private deleteTransfer(id: number) {
-    this.transferService.deleteTransfer(id).subscribe({
-      next: () => console.log('Deleting..'),
-      error: (error: any) => console.log(error),
-      complete: () => {
-        console.log('Deleted!');
-        this.fetchTransferList();
-      }
-    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }
