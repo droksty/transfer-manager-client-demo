@@ -139,7 +139,7 @@
                     {{ transfer.client?.title }}
                   </option>
                   <hr />
-                  @for (associate of associateList; track $index) {
+                  @for (associate of associates(); track $index) {
                     <option [ngValue]="associate">{{ associate.title }}</option>
                   }
                 </select>
@@ -167,7 +167,7 @@
                     {{ transfer.operator?.title }}
                   </option>
                   <hr />
-                  @for (associate of associateList; track $index) {
+                  @for (associate of associates(); track $index) {
                     <option [ngValue]="associate">{{ associate.title }}</option>
                   }
                 </select>

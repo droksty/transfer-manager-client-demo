@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 
 import { TransferService } from '../transfer.service';
 import { TRANSFER_TYPES } from "src/app/_models/transfer.model";
 import { Transfer } from "src/app/_models/transfer.model";
-import { Associate } from 'src/app/_models/associate.model';
 import { AssociateService } from 'src/app/_services/associate.service';
 
 @Component({
@@ -15,31 +14,30 @@ import { AssociateService } from 'src/app/_services/associate.service';
     imports: [FormsModule]
 })
 export class InsertFormComponent implements OnInit {
-  types = Object.keys(TRANSFER_TYPES);
-  associateList: Associate[] = [];
+  private associateService = inject(AssociateService);
+  private transferService = inject(TransferService);
+  private destroyRef = inject(DestroyRef);
   
-  constructor(
-    private associateService: AssociateService,
-    private service: TransferService
-  ) {}
+  types = Object.keys(TRANSFER_TYPES);
+  associates = this.associateService.loadedAssociates;
   
   ngOnInit() {
-    this.associateService.data$.subscribe(data => this.associateList = data);
+    const subscription = this.associateService.getAssociates().subscribe({
+      error: (error) => console.log(error),
+      complete: () => console.log('completed')
+    });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
   submit(insertForm: NgForm) {
     const transfer: Transfer = insertForm.value;
-    console.log(transfer);
-    if (!transfer.type)
-      transfer.type = undefined;
-    if (!transfer.operator)
-      transfer.operator = null;
-    if (!transfer.client)
-      transfer.client = null;
+    if (!transfer.type)     transfer.type = undefined;
+    if (!transfer.operator) transfer.operator = null;
+    if (!transfer.client)   transfer.client = null;
 
-    /* let transferDTO = new TransferDTO(insertForm.value);
-    console.log(transferDTO); */
-    this.service.insertTransfer(transfer);
+    // DO SET UP SUBSCRIPTION AND DESTROYREF???
+    this.transferService.insertTransfer(transfer);
     insertForm.resetForm({ type: '', client: '', operator: '' });
   }
 

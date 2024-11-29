@@ -110,7 +110,7 @@
             <label for="client">Πελάτης</label>
             <select id="client" class="form-control" ngModel name="client">
               <option value="" selected>Επιλογή</option>
-              @for (associate of associateList; track $index) {
+              @for (associate of associates(); track $index) {
               <option [ngValue]="associate">{{ associate.title }}</option>
               }
             </select>
@@ -119,7 +119,7 @@
             <label for="operator">Προμηθευτής</label>
             <select id="operator" class="form-control" ngModel name="operator">
               <option value="" selected>Επιλογή</option>
-              @for (associate of associateList; track $index) {
+              @for (associate of associates(); track $index) {
               <option [ngValue]="associate">{{ associate.title }}</option>
               }
             </select>

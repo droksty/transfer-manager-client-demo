@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
 import { TRANSFER_TYPES } from "src/app/_models/transfer.model";
@@ -17,27 +17,29 @@ import { AssociateService } from 'src/app/_services/associate.service';
     imports: [FormsModule, ReactiveFormsModule, DatePipe]
 })
 export class TransferListComponent implements OnInit {
-  transferList: TransferList = {} as TransferList;
-  /* transfers: Transfer[] = [];
-  totalSales: Number = 0;
-  totalNet: Number = 0;
-  totalCost: Number = 0; */
+  private associateService = inject(AssociateService);
+  private transferService = inject(TransferService);
+  private destroyRef = inject(DestroyRef);
 
+  associates = this.associateService.loadedAssociates;
+
+  transferList: TransferList = {} as TransferList;
   updateForm!: FormGroup;
   selectedTransfer: Transfer = {} as Transfer;
   types = Object.keys(TRANSFER_TYPES);
-  associateList: Associate[] = [];
-
-
-  constructor(
-    private transferService: TransferService,
-    private associateService: AssociateService
-  ) {}
-
+  
+ 
 
   ngOnInit() {
     this.fetchTransferList();
-    this.associateService.data$.subscribe(data => this.associateList = data);
+
+    const subscription = this.associateService.getAssociates().subscribe({
+      error: (error) => console.log(error),
+      complete: () => console.log(this.associates())
+    });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+
     this.updateForm = new FormGroup({
       'pickupDate': new FormControl(null, [Validators.required]),
       'pickupTime': new FormControl(null, [Validators.required]),

@@ -5,7 +5,9 @@ import { ActivatedRoute } from "@angular/router";
 import { TransferList } from "../_models/transfer-list.model";
 import { Transfer } from "../_models/transfer.model";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TransferService {
   API_URI: string = 'http://localhost:8080/transfers';
 

@@ -31,7 +31,7 @@
       <div class="form-group col-md-3 col-lg-2">
         <select id="client" class="form-control" ngModel name="client">
           <option value="" selected>Πελάτης</option>
-          @for (associate of associateList; track $index) {
+          @for (associate of associates(); track $index) {
             <option [ngValue]="associate.title">
               {{ associate.title }}
             </option>
@@ -42,7 +42,7 @@
       <div class="form-group col-md-3 col-lg-2">
         <select id="operator" class="form-control" ngModel name="operator">
           <option value="" selected>Προμηθευτής</option>
-          @for (associate of associateList; track $index) {
+          @for (associate of associates(); track $index) {
             <option [ngValue]="associate.title">
               {{ associate.title }}
             </option>
