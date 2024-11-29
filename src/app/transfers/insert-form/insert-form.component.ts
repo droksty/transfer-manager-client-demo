@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 
-import { TransferService } from '../transfer.service';
+import { TransferService } from '../../_services/transfer.service';
 import { TRANSFER_TYPES } from "src/app/_models/transfer.model";
 import { Transfer } from "src/app/_models/transfer.model";
 import { AssociateService } from 'src/app/_services/associate.service';
