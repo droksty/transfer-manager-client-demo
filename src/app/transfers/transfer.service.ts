@@ -15,7 +15,7 @@ export class TransferService {
 
 
   insertTransfer(transfer: Transfer) {
-    this.http.post<Transfer>(this.API_URI, transfer).subscribe(data => console.log(data));
+    return this.http.post<Transfer>(this.API_URI, transfer);
   }
 
   updateTransfer(Transfer: Transfer) {

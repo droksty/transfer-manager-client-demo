@@ -36,8 +36,13 @@ export class InsertFormComponent implements OnInit {
     if (!transfer.operator) transfer.operator = null;
     if (!transfer.client)   transfer.client = null;
 
-    // DO SET UP SUBSCRIPTION AND DESTROYREF???
-    this.transferService.insertTransfer(transfer);
+    const subscription = this.transferService.insertTransfer(transfer).subscribe({
+      next: resData => console.log(resData),
+      error: err => console.log(err),
+      complete: () => console.log('completed')
+    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+
     insertForm.resetForm({ type: '', client: '', operator: '' });
   }
 
