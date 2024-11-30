@@ -1,7 +1,7 @@
 import { ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app.routing.module";
-import { HttpHandlerFn, HttpRequest, provideHttpClient, withInterceptors } from "@angular/common/http";
+import { HttpEventType, HttpHandlerFn, HttpRequest, provideHttpClient, withInterceptors } from "@angular/common/http";
 import { tap } from "rxjs";
 
 function demoInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
@@ -14,9 +14,13 @@ function demoInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
 }
 
 function demoResponseInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
-  return next(req).pipe(tap(event => {
-    console.log(["INCOMING RESPONSE"])
-    console.log(event)
+  return next(req).pipe(tap({
+    next: event => {
+      if (event.type === HttpEventType.Response) {
+        console.log('[INCOMING RESPONSE]')
+        console.log(event);
+      }
+    }
   }))
 }
 

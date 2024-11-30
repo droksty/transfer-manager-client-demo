@@ -24,10 +24,10 @@
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          @for (transfer of transferList.transfers; track $index) {
+          @for (transfer of transferList().transfers; track $index) {
             @if (transfer !== selectedTransfer) {
               <!-- Normal table row; No transfer has been selected -->
-              <tr (click)="onSelectTransfer(transfer)">
+              <tr (click)="selectTransfer(transfer)">
                 <td>
                   {{ transfer.pickupDate | date : "dd/M" }}
                 </td>
@@ -220,10 +220,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><strong>{{ transferList.totalSales }}</strong></td>
-            <td><strong>{{ transferList.totalNet }}</strong></td>
+            <td><strong>{{ transferList().totalSales }}</strong></td>
+            <td><strong>{{ transferList().totalNet }}</strong></td>
             <td></td>
-            <td><strong>{{ transferList.totalCost }}</strong></td>
+            <td><strong>{{ transferList().totalCost }}</strong></td>
             <td></td>
           </tr>
         </tbody>

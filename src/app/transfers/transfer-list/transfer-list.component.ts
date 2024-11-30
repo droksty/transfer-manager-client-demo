@@ -21,27 +21,23 @@ export class TransferListComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   associates = this.associateService.loadedAssociates;
+  transferList = signal<TransferList>({} as TransferList);
+  isFetching = signal<boolean>(false);
+  error = signal<string>('');
 
-  
-  transferList: TransferList = {} as TransferList;
   updateForm!: FormGroup;
   selectedTransfer: Transfer = {} as Transfer;
   types = Object.keys(TRANSFER_TYPES);
 
-  isFetching = signal(false);
-  error = signal('');
  
-
   ngOnInit() {
     this.fetchTransferList();
+    this.fetchAssociates();
+    this.updateForm = this.initializeUpdateForm();
+  }
 
-    const subscription = this.associateService.getAssociates().subscribe({
-      error: (error) => console.log(error),
-      complete: () => console.log(this.associates())
-    });
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
-
-    this.updateForm = new FormGroup({
+  private initializeUpdateForm() {
+    return new FormGroup({
       'pickupDate': new FormControl(null, [Validators.required]),
       'pickupTime': new FormControl(null, [Validators.required]),
       'passengerName': new FormControl(null),
@@ -57,50 +53,25 @@ export class TransferListComponent implements OnInit {
     });
   }
 
-  onSelectTransfer(transfer: Transfer) {
-    if (Object.keys(this.selectedTransfer).length === 0) {
-      this.selectedTransfer = transfer;
-      this.updateForm.patchValue({
-      'pickupDate':     transfer.pickupDate,
-      'pickupTime':     transfer.pickupTime,
-      'passengerName':  transfer.passengerName,
-      'totalPax':       transfer.totalPax,
-      'type':           transfer.type,
-      'transferFrom':   transfer.transferFrom,
-      'transferTo':     transfer.transferTo,
-      'priceTotal':     transfer.priceTotal,
-      'priceNet':       transfer.priceNet,
-      'client':         transfer.client,
-      'operator':       transfer.operator,
-      'operatorCost':   transfer.operatorCost
-      });
-    }
-  }
-
-  updateSelectedTransfer() {
-    const transfer: Transfer = this.buildDTO();
-    const subscription = this.transferService.updateTransfer(transfer).subscribe({
-      next: () => console.log('Updating..'),
-      error: (error: any) => console.log(error),
-      complete: () => {
-        this.clear()
-        console.log('Updated!');
-        this.fetchTransferList();
-      }
+  private fetchAssociates() {
+    const subscription = this.associateService.getAssociates().subscribe({
+      error: (error) => console.log(error),
+      complete: () => console.log(this.associates())
     });
-    this.destroyRef.onDestroy(()=>subscription.unsubscribe());
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  
-  protected clear() {
-    this.selectedTransfer = {} as Transfer;
-    this.updateForm.reset();
+  private fetchTransferList() {
+    this.isFetching.set(true);
+    const subscription = this.transferService.getTransferList().subscribe({
+      next: (transferList) => this.transferList.set(transferList),
+      error: (error) => this.error.set(error.message),
+      complete: () => this.isFetching.set(false)
+    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  
-  /* Helper methods */
-
-  private buildDTO(): Transfer {
+  private generateFromUserInput(): Transfer {
     return {
       'id': this.selectedTransfer.id,
       'pickupDate': this.updateForm.get('pickupDate')?.value,
@@ -117,32 +88,57 @@ export class TransferListComponent implements OnInit {
       'operatorCost':this.updateForm.get('operatorCost')?.value
     };
   }
-  
-  
-  private fetchTransferList() {
-    this.isFetching.set(true);
-    
-    const subscription = this.transferService.getTransferList().subscribe({
-      next: transferList => this.transferList = transferList,
-      error: (error) => this.error.set(error.message),
-      complete: () => this.isFetching.set(false)
+
+  protected clear() {
+    this.selectedTransfer = {} as Transfer;
+    this.updateForm.reset();
+  }
+
+  protected selectTransfer(transfer: Transfer) {
+    if (Object.keys(this.selectedTransfer).length === 0) {
+      this.selectedTransfer = transfer;
+      this.updateForm.patchValue({
+        'pickupDate':     transfer.pickupDate,
+        'pickupTime':     transfer.pickupTime,
+        'passengerName':  transfer.passengerName,
+        'totalPax':       transfer.totalPax,
+        'type':           transfer.type,
+        'transferFrom':   transfer.transferFrom,
+        'transferTo':     transfer.transferTo,
+        'priceTotal':     transfer.priceTotal,
+        'priceNet':       transfer.priceNet,
+        'client':         transfer.client,
+        'operator':       transfer.operator,
+        'operatorCost':   transfer.operatorCost
+      });
+    }
+  }
+
+  protected updateSelectedTransfer() {
+    const transfer: Transfer = this.generateFromUserInput();
+    const subscription = this.transferService.updateTransfer(transfer).subscribe({
+      next: () => console.log('Updating..'),
+      error: (error: any) => console.log(error),
+      complete: () => {
+        this.clear()
+        console.log('Updated!');
+        this.fetchTransferList();
+      }
     });
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
-  
-  
 
-
-  // Refactoring
   protected deleteSelectedTransfer(id: number) {
     // Add prompt to confirm action?
     const subscription = this.transferService.deleteTransfer(id).subscribe({
       error: (error) => console.log(error),
       complete: () => {
+        this.clear()
         // Add modal to inform about successful delete?
         this.fetchTransferList();
       }
     });
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
+
 }
