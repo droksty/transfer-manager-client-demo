@@ -20,7 +20,7 @@ export class TransferListComponent implements OnInit {
   private transferService = inject(TransferService);
   private destroyRef = inject(DestroyRef);
 
-  associates = this.associateService.loadedAssociates;
+  associates = this.associateService.associates;
   transferList = signal<TransferList>({} as TransferList);
   isFetching = signal<boolean>(false);
   error = signal<string>('');
@@ -32,7 +32,6 @@ export class TransferListComponent implements OnInit {
  
   ngOnInit() {
     this.fetchTransferList();
-    this.fetchAssociates();
     this.updateForm = this.initializeUpdateForm();
   }
 
@@ -51,14 +50,6 @@ export class TransferListComponent implements OnInit {
       'operator': new FormControl(null),
       'operatorCost': new FormControl(null),
     });
-  }
-
-  private fetchAssociates() {
-    const subscription = this.associateService.getAssociates().subscribe({
-      error: (error) => console.log(error),
-      complete: () => console.log(this.associates())
-    });
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
   private fetchTransferList() {

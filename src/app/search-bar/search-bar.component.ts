@@ -1,8 +1,7 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Associate } from '../_models/associate.model';
 import { AssociateService } from '../_services/associate.service';
 import { TransferListComponent } from "../transfers/transfer-list/transfer-list.component";
 
@@ -20,22 +19,11 @@ interface SearchParams {
   standalone: true,
   imports: [FormsModule, TransferListComponent],
 })
-export class SearchBarComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
+export class SearchBarComponent {
   private associateService = inject(AssociateService);
   private router = inject(Router);
   
-  associates = this.associateService.loadedAssociates;
-
-  
-  ngOnInit() {
-    const subscription = this.associateService.getAssociates().subscribe({
-      error: (error) => console.log(error),
-      complete: () => console.log('completed')
-    });
-
-    this.destroyRef.onDestroy(() => subscription.unsubscribe())
-  }
+  associates = this.associateService.associates;
 
 
   onSubmit(form: NgForm) {

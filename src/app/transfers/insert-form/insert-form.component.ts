@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 
 import { TransferService } from '../../_services/transfer.service';
@@ -13,22 +13,14 @@ import { AssociateService } from 'src/app/_services/associate.service';
     standalone: true,
     imports: [FormsModule]
 })
-export class InsertFormComponent implements OnInit {
+export class InsertFormComponent {
   private associateService = inject(AssociateService);
   private transferService = inject(TransferService);
   private destroyRef = inject(DestroyRef);
   
   types = Object.keys(TRANSFER_TYPES);
-  associates = this.associateService.loadedAssociates;
+  associates = this.associateService.associates;
   
-  ngOnInit() {
-    const subscription = this.associateService.getAssociates().subscribe({
-      error: (error) => console.log(error),
-      complete: () => console.log('completed')
-    });
-
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
-  }
 
   submit(insertForm: NgForm) {
     const transfer: Transfer = insertForm.value;
