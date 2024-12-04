@@ -18,24 +18,24 @@ export class InsertFormComponent {
   private transferService = inject(TransferService);
   private destroyRef = inject(DestroyRef);
   
-  types = Object.keys(TRANSFER_TYPES);
-  associates = this.associateService.associates;
+  protected formDefaults = { type: '', client: '', operator: '' };
+  protected types = Object.keys(TRANSFER_TYPES);
+  protected associates = this.associateService.associates;
   
+  protected submit(insertForm: NgForm) {
+    const transferDto: Transfer = insertForm.value;
+    if (!transferDto.type)     transferDto.type = undefined;
+    if (!transferDto.operator) transferDto.operator = null;
+    if (!transferDto.client)   transferDto.client = null;
 
-  submit(insertForm: NgForm) {
-    const transfer: Transfer = insertForm.value;
-    if (!transfer.type)     transfer.type = undefined;
-    if (!transfer.operator) transfer.operator = null;
-    if (!transfer.client)   transfer.client = null;
-
-    const subscription = this.transferService.insertTransfer(transfer).subscribe({
-      next: resData => console.log(resData),
-      error: err => console.log(err),
-      complete: () => console.log('completed')
+    const subscription = this.transferService.insertTransfer(transferDto).subscribe({
+      next: responseData => console.log(responseData),
+      error: error => console.log(error),
+      complete: () => console.log('Transfer succesfully persisted')
     });
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
 
-    insertForm.resetForm({ type: '', client: '', operator: '' });
+    insertForm.resetForm(this.formDefaults);
   }
 
 }

@@ -11,57 +11,38 @@
         <div class="row mb-3 gy-2">
           <div class="form-group col-lg-2">
             <label for="pickupDate">Ημερομηνία</label>
-            <input
-              type="date"
-              id="pickupDate"
-              class="form-control"
-              ngModel
-              name="pickupDate"
-              min="2024-01-01"
-              max="2024-12-31"
-            />
+            <input type="date" id="pickupDate" class="form-control" ngModel name="pickupDate" min="2024-01-01" max="2024-12-31" required #pickupDate="ngModel"/>
+            @if (pickupDate.touched && pickupDate.invalid) {
+              <div class="inline-validation">Υποχρεωτικό πεδίο</div>
+            }
           </div>
           <div class="form-group col-lg-2">
             <label for="pickupTime">Ώρα</label>
-            <input
-              type="time"
-              id="pickupTime"
-              class="form-control"
-              ngModel
-              name="pickupTime"
-            />
+            <input type="time" id="pickupTime" class="form-control" ngModel name="pickupTime" required #pickupTime="ngModel">
+            @if (pickupTime.touched && pickupTime.invalid) {
+              <div class="inline-validation">Υποχρεωτικό πεδίο</div>
+            }
           </div>
           <div class="form-group col-lg-2">
             <label for="transferFrom">Αφετηρία</label>
-            <input
-              type="text"
-              id="transferFrom"
-              class="form-control"
-              ngModel
-              name="transferFrom"
-            />
+            <input type="text" id="transferFrom" class="form-control" ngModel name="transferFrom" minlength="3" required #transferFrom="ngModel"/>
+            @if (transferFrom.touched && transferFrom.invalid) {
+              <div class="inline-validation">Υποχρεωτικό πεδίο</div>
+            }
           </div>
           <div class="form-group col-lg-2">
             <label for="transferTo">Προορισμός</label>
-            <input
-              type="text"
-              id="transferTo"
-              class="form-control"
-              ngModel
-              name="transferTo"
-            />
+            <input type="text"id="transferTo"class="form-control"ngModel name="transferTo" minlength="3" required #transferTo="ngModel"/>
+            @if (transferTo.touched && transferTo.invalid) {
+              <div class="inline-validation">Υποχρεωτικό πεδίο</div>
+            }
           </div>
           <div class="form-group col-lg-2">
             <label for="pax">Άτομα</label>
-            <input
-              type="number"
-              id="pax"
-              class="form-control"
-              ngModel
-              name="pax"
-              min="1"
-              max="20"
-            />
+            <input type="number" id="pax" class="form-control" ngModel name="pax" min="0" #pax="ngModel"/>
+            @if (pax.invalid) {
+              <div class="inline-validation">Αρνητικός αριθμός.</div>
+            }
           </div>
           <div class="form-group col-lg-2">
             <label for="type">Κατηγορία</label>
@@ -74,37 +55,21 @@
           </div>
           <div class="form-group col-lg-2">
             <label for="passengerName">Όνομα</label>
-            <input
-              type="text"
-              id="passengerName"
-              class="form-control"
-              ngModel
-              name="passengerName"
-            />
+            <input type="text" id="passengerName" class="form-control" ngModel name="passengerName"/>
           </div>
           <div class="form-group col-lg-2">
             <label for="priceTotal">Σύνολο</label>
-            <input
-              type="number"
-              min="0"
-              max="200"
-              id="priceTotal"
-              class="form-control"
-              ngModel
-              name="priceTotal"
-            />
+            <input type="number" id="priceTotal" class="form-control" ngModel name="priceTotal" min="0" #priceTotal="ngModel"/>
+            @if (priceTotal.invalid) {
+              <div class="inline-validation">Αρνητικός αριθμός.</div>
+            }
           </div>
           <div class="form-group col-lg-2">
             <label for="priceNet">Net</label>
-            <input
-              type="number"
-              min="0"
-              max="200"
-              id="priceNet"
-              class="form-control"
-              ngModel
-              name="priceNet"
-            />
+            <input type="number" id="priceNet" class="form-control" ngModel name="priceNet" min="0" #priceNet="ngModel"/>
+            @if (priceNet.invalid) {
+              <div class="inline-validation">Αρνητικός αριθμός.</div>
+            }
           </div>
           <div class="form-group col-lg-2">
             <label for="client">Πελάτης</label>
@@ -126,33 +91,18 @@
           </div>
           <div class="form-group col-lg-2">
             <label for="operatorCost">Κόστος</label>
-            <input
-              type="number"
-              min="0"
-              max="100"
-              id="operatorCost"
-              class="form-control"
-              ngModel
-              name="operatorCost"
-            />
+            <input type="number" id="operatorCost" class="form-control" ngModel name="operatorCost" min="0" #operatorCost="ngModel"/>
+            @if (operatorCost.invalid) {
+              <div class="inline-validation">Αρνητικός αριθμός.</div>
+            }
           </div>
         </div>
-        <div class="row">
+        <div class="row"  style="margin-bottom: 1em">
           <div class="form-group d-flex justify-content-center gap-1">
-            <button
-              class="btn btn-success btn-block"
-              type="submit"
-              [disabled]="!insertForm.valid"
-            >
+            <button type="submit" class="btn btn-success btn-block" [disabled]="!insertForm.valid">
               Εισαγωγή
             </button>
-            <button
-              class="btn btn-danger btn-block"
-              type="button"
-              (click)="
-                insertForm.resetForm({ type: '', client: '', provider: '' })
-              "
-            >
+            <button class="btn btn-danger btn-block" type="button" (click)="insertForm.resetForm(formDefaults)">
               Εκκαθάριση
             </button>
           </div>
@@ -160,7 +110,7 @@
         <!-- Alternative buttons layout -->
         <!-- <div class="form-group d-grid gap-2 col-5 mx-auto">
           <button class="btn btn-success btn-block" type="submit" [disabled]="!insertForm.valid">Εισαγωγή</button>
-          <button class="btn btn-secondary btn-block" type="button" (click)="clearForm(insertForm)">Εκκαθάριση</button>
+          <button class="btn btn-secondary btn-block" type="button" (click)="insertForm.resetForm(formDefaults)">Εκκαθάριση</button>
         </div> -->
       </form>
     </div>
