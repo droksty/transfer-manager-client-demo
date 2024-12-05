@@ -1,40 +1,20 @@
 <div class="container-fluid bg-secondary-subtle py-2">
-  <form (ngSubmit)="onSubmit(searchForm)" #searchForm="ngForm">
+  <form (ngSubmit)="submit(searchForm)" #searchForm="ngForm">
     <div class="row gx-2 justify-content-center text align-items-center">
       <!-- From -->
       <div class="form-group col-md-2 col-lg-2">
-        <input 
-          type="text" 
-          placeholder="Από"
-          onfocus="(this.type='date')" 
-          onblur="(this.type='text')" 
-          id="fromDate" 
-          class="form-control" 
-          ngModel name="fromDate"  
-          min="2024-01-01" 
-          max="2024-12-31">
+        <input onfocus="(this.type='date')" onblur="(this.type='text')" id="fromDate" class="form-control" placeholder="Από"ngModel name="fromDate">
       </div>
       <!-- To -->
       <div class="form-group col-md-2 col-lg-2">
-        <input 
-          type="text" 
-          placeholder="Έως"
-          onfocus="(this.type='date')" 
-          onblur="(this.type='text')" 
-          id="toDate" 
-          class="form-control" 
-          ngModel name="toDate"  
-          min="2024-01-01" 
-          max="2024-12-31">
+        <input onfocus="(this.type='date')" onblur="(this.type='text')" id="toDate" class="form-control" placeholder="Έως"ngModel name="toDate">
       </div>
       <!-- Client -->
       <div class="form-group col-md-3 col-lg-2">
         <select id="client" class="form-control" ngModel name="client">
           <option value="" selected>Πελάτης</option>
           @for (associate of associates(); track $index) {
-            <option [ngValue]="associate.title">
-              {{ associate.title }}
-            </option>
+          <option [ngValue]="associate.title">{{ associate.title }}</option>
           }
         </select>
       </div>
@@ -43,9 +23,7 @@
         <select id="operator" class="form-control" ngModel name="operator">
           <option value="" selected>Προμηθευτής</option>
           @for (associate of associates(); track $index) {
-            <option [ngValue]="associate.title">
-              {{ associate.title }}
-            </option>
+          <option [ngValue]="associate.title">{{ associate.title }}</option>
           }
         </select>
       </div>
