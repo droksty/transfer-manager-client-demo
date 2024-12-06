@@ -3,10 +3,10 @@ td {
 }
 
 
-.customLengthForNumbers {
+.numLength {
   width: 4em;
 }
 
-.customLengthForText {
+.textLength {
   width: 8em;
 }
