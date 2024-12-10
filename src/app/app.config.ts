@@ -1,8 +1,9 @@
 import { ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { AppRoutingModule } from "./app.routing.module";
 import { HttpEventType, HttpHandlerFn, HttpRequest, provideHttpClient, withInterceptors } from "@angular/common/http";
 import { tap } from "rxjs";
+import { provideRouter } from "@angular/router";
+import { routes } from "./app.routes";
 
 function demoInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
   console.log("[OUTGOING REQUEST]");
@@ -30,7 +31,8 @@ function demoResponseInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
 // Refactor and optimize later?
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(BrowserModule, AppRoutingModule),
+    importProvidersFrom(BrowserModule), // ?
+    provideRouter(routes),
     provideHttpClient(withInterceptors([demoInterceptor, demoResponseInterceptor]))
   ]
 }
