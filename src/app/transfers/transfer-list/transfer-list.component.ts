@@ -1,5 +1,6 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AssociateService } from 'src/app/_services/associate.service';
@@ -17,6 +18,7 @@ import { Transfer } from "src/app/_models/transfer.model";
 })
 export class TransferListComponent implements OnInit {
   private associateService = inject(AssociateService);
+  private activatedRoute = inject(ActivatedRoute);
   private transferService = inject(TransferService);
   private destroyRef = inject(DestroyRef);
 
@@ -29,7 +31,11 @@ export class TransferListComponent implements OnInit {
   protected error = signal<string>('');
 
   ngOnInit() {
-    this.fetchTransferList();
+    // Κάθε φορά που αλλάζουν τα queryParams κάνε κάτι
+    const subscription = this.activatedRoute.queryParams.subscribe({
+      next: (queryParams) => queryParams['from'] === '' ? this.transferList.set({} as TransferList) : this.fetchTransferList()
+    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
   private initializeUpdateForm() {
@@ -52,7 +58,10 @@ export class TransferListComponent implements OnInit {
   private fetchTransferList() {
     this.isFetching.set(true);
     const subscription = this.transferService.getTransferList().subscribe({
-      next: (responseData) => this.transferList.set(responseData),
+      next: (responseData) => {
+        this.transferList.set(responseData);
+        this.error.set('');
+      } ,
       error: (error) => this.error.set(error.message),
       complete: () => this.isFetching.set(false)
     });

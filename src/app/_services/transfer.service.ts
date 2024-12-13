@@ -11,7 +11,7 @@ import { Transfer } from "../_models/transfer.model";
 export class TransferService {
   API_URI: string = 'http://localhost:8080/transfers';
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(private http: HttpClient, private activatedRoute: ActivatedRoute) {}
 
 
   insertTransfer(transfer: Transfer) {
@@ -27,13 +27,8 @@ export class TransferService {
   }
 
   getTransferList() {
-    const searchQuery = this.route.snapshot.queryParams;
+    const searchQuery = this.activatedRoute.snapshot.queryParams;
     return this.http.get<TransferList>(this.API_URI, { params: searchQuery });
   }
 
-  
-
-  
-
-  
 }

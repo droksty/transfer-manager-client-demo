@@ -9,10 +9,10 @@
           <a class="nav-link" routerLink="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/insert-transfer">Εισαγωγή</a>
+          <a class="nav-link" routerLink="/transfers/insert">Εισαγωγή</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/search-transfers">Αναζήτηση</a>
+          <a class="nav-link" routerLink="/transfers/search" [queryParams]="emptyQueryParams">Αναζήτηση</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Διαχείριση</a>
