@@ -1,6 +1,6 @@
-import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AssociateService } from 'src/app/_services/associate.service';
@@ -16,75 +16,18 @@ import { Transfer } from "src/app/_models/transfer.model";
     standalone: true,
     imports: [FormsModule, ReactiveFormsModule, DatePipe]
 })
-export class TransferListComponent implements OnInit {
+export class TransferListComponent {
   private associateService = inject(AssociateService);
   private activatedRoute = inject(ActivatedRoute);
   private transferService = inject(TransferService);
   private destroyRef = inject(DestroyRef);
-
-  protected updateForm: FormGroup = this.initializeUpdateForm();
+  private router = inject(Router)
+  
   protected associates = this.associateService.associates;
+  protected updateForm: FormGroup = this.initializeUpdateForm();
   protected types = Object.keys(TRANSFER_TYPES);
-  protected transferList = signal<TransferList>({} as TransferList);
   protected selectedTransfer: Transfer = {} as Transfer;
-  protected isFetching = signal<boolean>(false);
-  protected error = signal<string>('');
-
-  ngOnInit() {
-    // Κάθε φορά που αλλάζουν τα queryParams κάνε κάτι
-    const subscription = this.activatedRoute.queryParams.subscribe({
-      next: (queryParams) => queryParams['from'] === '' ? this.transferList.set({} as TransferList) : this.fetchTransferList()
-    });
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
-  }
-
-  private initializeUpdateForm() {
-    return new FormGroup({
-      'pickupDate':     new FormControl(null, [Validators.required]),
-      'pickupTime':     new FormControl(null, [Validators.required]),
-      'passengerName':  new FormControl(null),
-      'totalPax':       new FormControl(null, [Validators.min(0)]),
-      'type':           new FormControl(null),
-      'transferFrom':   new FormControl(null, [Validators.required]),
-      'transferTo':     new FormControl(null, [Validators.required]),
-      'priceTotal':     new FormControl(null, [Validators.min(0)]),
-      'priceNet':       new FormControl(null, [Validators.min(0)]),
-      'client':         new FormControl(null),
-      'operator':       new FormControl(null),
-      'operatorCost':   new FormControl(null, [Validators.min(0)]),
-    });
-  }
-
-  private fetchTransferList() {
-    this.isFetching.set(true);
-    const subscription = this.transferService.getTransferList().subscribe({
-      next: (responseData) => {
-        this.transferList.set(responseData);
-        this.error.set('');
-      } ,
-      error: (error) => this.error.set(error.message),
-      complete: () => this.isFetching.set(false)
-    });
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
-  }
-
-  protected deleteTransfer(id: number) {
-    // Add prompt to confirm action?
-    const subscription = this.transferService.deleteTransfer(id).subscribe({
-      error: (error) => console.log(error),
-      complete: () => {
-        this.clear();
-        // Add modal to inform about successful delete?
-        this.fetchTransferList();
-      }
-    });
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
-  }
-
-  protected clear() {
-    this.selectedTransfer = {} as Transfer;
-    this.updateForm.reset();
-  }
+  protected transferList = input.required<TransferList>(); // how should I implement isFetching and error signals with the resolver approach??
 
   protected selectTransfer(transfer: Transfer) {
     if (Object.keys(this.selectedTransfer).length === 0) {
@@ -105,21 +48,59 @@ export class TransferListComponent implements OnInit {
       });
     }
   }
-
+  
   protected updateSelectedTransfer() {
     const transfer: Transfer = this.extractUserInput();
     const subscription = this.transferService.updateTransfer(transfer).subscribe({
       next: () => console.log('Updating..'),
       error: (error: any) => console.log(error),
       complete: () => {
-        this.clear()
-        console.log('Updated!');
-        this.fetchTransferList();
+        this.clear();
+        console.log('Transfer updated!');
+        // this.fetchTransferList();
+        this.router.navigate([], { relativeTo: this.activatedRoute, onSameUrlNavigation: 'reload', queryParamsHandling: 'preserve' });
+      }
+    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
+  
+  protected deleteTransfer(id: number) {
+    if (!window.confirm("Delete selected transfer?")) return;
+
+    const subscription = this.transferService.deleteTransfer(id).subscribe({
+      error: (error) => console.log(error),
+      complete: () => {
+        this.clear();
+        // Add modal to inform about successful delete?
+        // this.fetchTransferList();
+        this.router.navigate([], { relativeTo: this.activatedRoute, onSameUrlNavigation: 'reload', queryParamsHandling: 'preserve' });
       }
     });
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
+  protected clear() {
+    this.selectedTransfer = {} as Transfer;
+    this.updateForm.reset();
+  }
+
+  private initializeUpdateForm() {
+    return new FormGroup({
+      'pickupDate':     new FormControl(null, [Validators.required]),
+      'pickupTime':     new FormControl(null, [Validators.required]),
+      'passengerName':  new FormControl(null),
+      'totalPax':       new FormControl(null, [Validators.min(0)]),
+      'type':           new FormControl(null),
+      'transferFrom':   new FormControl(null, [Validators.required]),
+      'transferTo':     new FormControl(null, [Validators.required]),
+      'priceTotal':     new FormControl(null, [Validators.min(0)]),
+      'priceNet':       new FormControl(null, [Validators.min(0)]),
+      'client':         new FormControl(null),
+      'operator':       new FormControl(null),
+      'operatorCost':   new FormControl(null, [Validators.min(0)]),
+    });
+  }
+  
   private extractUserInput(): Transfer {
     return {
       'id':             this.selectedTransfer.id,
@@ -138,4 +119,34 @@ export class TransferListComponent implements OnInit {
     };
   }
 
+  
+  /* Deprecated */
+
+  /* protected transferList = signal<TransferList>({} as TransferList);
+  protected isFetching = signal<boolean>(false);
+  protected error = signal<string>(''); */
+
+  /* ngOnInit() {
+    // Κάθε φορά που αλλάζουν τα queryParams κάνε κάτι
+    const subscription = this.activatedRoute.queryParams.subscribe({
+      next: (queryParams) => {
+        console.log('HELLO FROM TRANSFER-LIST');
+        queryParams['from'] === '' ? this.transferList.set({} as TransferList) : this.fetchTransferList()
+      } 
+    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  } */
+
+ /* private fetchTransferList() {
+    this.isFetching.set(true);
+    const subscription = this.transferService.getTransferList().subscribe({
+      next: (responseData) => {
+        this.transferList.set(responseData);
+        this.error.set('');
+      } ,
+      error: (error) => this.error.set(error.message),
+      complete: () => this.isFetching.set(false)
+    });
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  } */
 }

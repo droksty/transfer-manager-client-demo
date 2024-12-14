@@ -5,6 +5,7 @@ import { NotImplementedComponent } from "./not-implemented/not-implemented.compo
 import { InsertFormComponent } from "./transfers/insert-form/insert-form.component";
 import { TransferListComponent } from "./transfers/transfer-list/transfer-list.component";
 import { TransfersComponent } from "./transfers/transfers.component";
+import { fetchTransferList } from "./_resolvers/resolvers";
 
 export const routes: Routes = [
   {
@@ -23,8 +24,8 @@ export const routes: Routes = [
       { 
         path: '',
         component: TransferListComponent,
-        // resolve: { test: resolveSearch },
-        // runGuardsAndResolvers: 'always'
+        resolve: { transferList: fetchTransferList },
+        runGuardsAndResolvers: 'always'
       }
     ] 
   },

@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AssociateService } from '../_services/associate.service';
 import { TransferListComponent } from "../transfers/transfer-list/transfer-list.component";
-import { SearchCriteria } from '../_models/search-criteria.model';
 
 @Component({
   selector: 'app-search-bar',
@@ -25,23 +24,21 @@ export class SearchBarComponent {
     const subscription = this.activatedRoute.queryParams.subscribe({
       next: (queryParams) => {
         if (queryParams['from'] === '' && queryParams['to'] === '' && queryParams['client'] === '' && queryParams['operator'] === '') {
-          this.form().resetForm({fromDate: '', toDate: '', client: '', operator: ''})
+          this.form().resetForm(queryParams)
         }
       }
     });
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  // Maybe in a future patch change from template driven forms to plain template variables
+  // Maybe in a future patch change from template driven forms to plain template variables?
   protected submit(form: NgForm) {
-    const formData: SearchCriteria = form.value;
-
     this.router.navigate([], {
       queryParams: {
-        from: formData.fromDate,
-        to: formData.toDate,
-        client: formData.client,
-        operator: formData.operator
+        from: form.value.fromDate,
+        to: form.value.toDate,
+        client: form.value.client,
+        operator: form.value.operator
       }
     });
   }

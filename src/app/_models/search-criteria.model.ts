@@ -1,6 +1,6 @@
-export interface SearchCriteria {
-  fromDate: '';
-  toDate: '';
-  client: '';
-  operator: '';
-}
+// export interface SearchCriteria {
+//   fromDate: '';
+//   toDate: '';
+//   client: '';
+//   operator: '';
+// }
