@@ -6,3 +6,4 @@
 ###### Version 1.2 - Hotfix for compatibility with backend. Works with [transfers-demo](https://github.com/droksty/transfers-demo) version 0.1.5-SNAPSHOT
 ###### Version 1.3 - Add financial totals to transfer list. Works with [transfers-demo](https://github.com/droksty/transfers-demo) version 0.1.5-SNAPSHOT
 ###### Version 1.4 - Various updates and refactorings. Works with [transfers-demo](https://github.com/droksty/transfers-demo) version 0.1.6-SNAPSHOT
+###### Version 1.5 - Refactor routing and other major updates. Works with [transfers-demo](https://github.com/droksty/transfers-demo) version 0.1.6-SNAPSHOT

@@ -6,7 +6,7 @@ import { TransferService } from "../_services/transfer.service";
 
 
 export const fetchTransferList: ResolveFn<TransferList> = (activatedRouteSnapshot, routerStateSnapshot) => {
-  console.log('RESOLVE')
+  // console.log('RESOLVE')
   if (activatedRouteSnapshot.queryParams['from'] === '') return { transfers: [], totalSales: 0, totalNet: 0, totalCost: 0 } as TransferList;
   
   const transferService = inject(TransferService);
