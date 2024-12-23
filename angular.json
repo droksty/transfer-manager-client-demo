@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "transfers-demo-client": {
+    "transfer-manager-client-demo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -41,7 +41,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/transfers-demo-client",
+            "outputPath": "dist/transfer-manager-client-demo",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -91,10 +91,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "transfers-demo-client:build:production"
+              "buildTarget": "transfer-manager-client-demo:build:production"
             },
             "development": {
-              "buildTarget": "transfers-demo-client:build:development"
+              "buildTarget": "transfer-manager-client-demo:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -102,7 +102,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "transfers-demo-client:build"
+            "buildTarget": "transfer-manager-client-demo:build"
           }
         },
         "test": {
